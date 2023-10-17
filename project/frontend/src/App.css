@@ -1,0 +1,81 @@
+#root {
+  font-size: small;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.googlebutton {
+  width: 200px;
+  height: 28px;
+  margin: 5px;
+}
+
+#googleSignInButton svg {
+  width: 18px;
+  height: 18px;
+  fill: #4285F4;
+}
+
+#googleSignInButton button > div {
+  padding: 0px 0px 0px 7px !important;
+}
+
+/* #googleSignInButton span {
+  font-weight: 500;
+  padding: 10px 10px 10px 0px;
+} */
+
+/* @media (min-width: 1200px) {
+  .map-container {
+    width: 42.5rem;
+    margin-left: 104px;
+  }
+} */
+
+/* Media query for lg screens */
+/* @media (min-width: 992px) and (max-width: 1199px) {
+  .map-container {
+    width: '43vw';
+    margin-left: '40px';
+  }
+} */
+
+
+
+/* .logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+} */

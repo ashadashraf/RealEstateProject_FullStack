@@ -1,0 +1,59 @@
+
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-42%, -129%);
+    background-color: rgba(0, 0, 0, 1);
+    padding: 53px;
+    text-align: center;
+    color: #fff;
+    font-size: 35px;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+    font-family: Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+}
+
+.sell-image-container:hover .overlay-text {
+    opacity: 1;
+}
+
+.user-property-sell-mid {
+    display: block;
+    background-color: #080231;
+}
+
+.explore-head {
+    color: white;
+    padding: 30px;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.svg-icon {
+    fill: rgba(245, 229, 229, 0.952);
+    transition: fill 0.3s;
+}
+
+.svg-icon:hover {
+    fill: rgb(61, 197, 61);
+}
+
+.continue-button {
+    color: black;
+    border-color: #080231;
+}
+
+.continue-button:hover {
+    color: white;
+    border-color: white;
+    background-color: #080231;
+}
+
+.map-mark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+}

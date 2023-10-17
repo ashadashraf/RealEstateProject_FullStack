@@ -1,0 +1,10 @@
+.add-property:hover {
+    color: #080231;
+    background-color: rgb(255, 255, 255);
+}
+
+.add-property {
+    margin: 2px;
+    color: white;
+    background-color: #080231;
+}

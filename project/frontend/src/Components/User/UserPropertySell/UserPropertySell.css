@@ -37,6 +37,7 @@
 }
 
 .svg-icon:hover {
+    cursor: pointer;
     fill: rgb(61, 197, 61);
 }
 

@@ -1,0 +1,10 @@
+@media (min-width: 992px) and (max-width: 1399px) {
+    .wide-screen-map .map-container .mapboxgl-map {
+      width: 450px !important;
+      height: 600px !important;
+    }
+    .wide-screen-map {
+      max-width: fit-content;
+      height: 600px;
+    }
+  }

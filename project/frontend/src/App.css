@@ -22,6 +22,8 @@
   padding: 0px 0px 0px 7px !important;
 }
 
+
+
 /* #googleSignInButton span {
   font-weight: 500;
   padding: 10px 10px 10px 0px;
@@ -35,12 +37,18 @@
 } */
 
 /* Media query for lg screens */
-/* @media (min-width: 992px) and (max-width: 1199px) {
-  .map-container {
-    width: '43vw';
-    margin-left: '40px';
+
+@media (min-width: 992px) and (max-width: 1399px) {
+  .map-container .mapboxgl-map {
+    width: 685px !important;
   }
-} */
+}
+
+@media (min-width: 1400px) {
+  .map-container .mapboxgl-map {
+    width: 100% !important;
+  }
+}
 
 
 

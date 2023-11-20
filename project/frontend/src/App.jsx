@@ -11,8 +11,17 @@ import UserGoogleSignout from './Pages/UserSide/UserGoogleSignout';
 import UserSideSellProperty from './Pages/UserSide/UserSideSellProperty';
 import UserSideMarkProperty from './Pages/UserSide/UserSideMarkProperty';
 import UserSideAddPropertyDetails from './Pages/UserSide/UserSideAddPropertyDetails';
+import UserSideAddPropertyDocuments from './Pages/UserSide/UserSideAddPropertyDocuments';
+import UserSideListProperties from './Pages/UserSide/UserSideListProperties';
+import UserSidePropertyDetail from './Pages/UserSide/UserSidePropertyDetail';
+import UserSideManageMyProperty from './Pages/UserSide/UserSideManageMyProperty';
 
 const App = () => {
+  // var corsOptions = {
+  //   origin: "http://localhost:3000"
+  // };
+  
+  // app.use(cors(corsOptions));
   // Private Route
   return (
     <Router>
@@ -29,6 +38,18 @@ const App = () => {
           </Route>
           <Route path='/postpropertydetails'>
             <UserSideAddPropertyDetails />
+          </Route>
+          <Route path='/postpropertydocuments'>
+            <UserSideAddPropertyDocuments />
+          </Route>
+          <Route path='/userlistproperties'>
+            <UserSideListProperties />
+          </Route>
+          <Route path='/userpropertydetail'>
+            <UserSidePropertyDetail />
+          </Route>
+          <Route path='/usermyproperty'>
+            <UserSideManageMyProperty />
           </Route>
           {/* <Route path='/usersignup'>
             <UserSideSignup />

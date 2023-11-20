@@ -63,6 +63,7 @@ export default function UserSideSignup() {
       if (response.ok) {
         console.log('Sigup successful');
         console.log(response)
+        dispatch(setShowSignupModal({showSignupModal: false}))
         window.location.href = '/';
       } else {
         const responseText = await response.text();

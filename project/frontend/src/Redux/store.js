@@ -6,6 +6,8 @@ import signinReducer from './authModal/signinModalSlice';
 import LoggedinReducer from './authModal/isLoggedinSlice';
 import GoogleLoggedinReducer from './authModal/isGoogleLoggedinSlice';
 import propertyAddressReducer from './sellPropertyDetails/propertyAddressSlice';
+import propertiesListReducer from './userProperty/propertiesListSlice';
+import propertyDetailReducer from './userProperty/propertyDetailSlice';
 
 const persistConfig = {
     key: 'root',
@@ -18,6 +20,8 @@ const rootReducer = combineReducers({
     showIsLoggedin: LoggedinReducer,
     showIsGoogleLoggedin: GoogleLoggedinReducer,
     showPropertyAddress: propertyAddressReducer,
+    showPropertiesList: propertiesListReducer,
+    showPropertyDetail: propertyDetailReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

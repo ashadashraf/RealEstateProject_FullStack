@@ -1,0 +1,48 @@
+.price-text {
+    padding-left: 7vw;
+}
+
+.transaction-type {
+    font-size: small;
+    padding-left: 5vw;
+    padding-top: 1vw;
+    padding-bottom: 0.5vw;
+}
+
+.address-text {
+    font-size: small;
+    padding-left: 7vw;
+    padding-top: 0.3vw;
+}
+
+.detail-button {
+    color: black;
+    background-color: rgb(238, 235, 231);
+}
+
+.detail-button:hover {
+    background-color: black;
+}
+
+.container {
+    margin-left: 6vw;
+}
+
+hr {
+    border: 1px solid;
+    color: white;
+}
+
+.sub-features-header {
+    font-size: medium;
+}
+
+.popover-container {
+    background-color: black;
+    border-color: blanchedalmond;
+}
+
+.popover-body {
+    color: white;
+}
+

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from phonenumber_field.modelfields import PhoneNumberField
+# from data.models import Property
 
 # Create your models here.
 
@@ -45,6 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     aadhar_number = models.CharField(max_length=50, null=True, blank=True, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    favourites = models.ManyToManyField('data.Property', related_name='favourites', blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'phone_number']

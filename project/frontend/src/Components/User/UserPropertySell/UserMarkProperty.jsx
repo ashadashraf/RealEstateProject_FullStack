@@ -38,10 +38,9 @@ const UserMarkProperty = () => {
         <p className='text-xl'>{address}, {unit}, {city}, {state}, {pincode}</p>
         <p className='text-base'>Is this an accurate location of your property ?</p>
       </div>
-      <div className='map-mark'>
-        <Mapbox />
-      </div>
-      <button onClick={handleMapMark} className='bg-red-500 p-3 m-3 rounded'>CONFIRM</button>
+      {/* <div className='map-mark'></div> */}
+      <Mapbox />
+      <button onClick={handleMapMark} className='bg-red-500 p-3 rounded' style={{marginTop: '5rem'}}>CONFIRM</button>
     </React.Fragment>
   )
 }

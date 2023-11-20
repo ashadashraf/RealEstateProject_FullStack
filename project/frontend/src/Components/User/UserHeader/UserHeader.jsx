@@ -16,6 +16,9 @@ import UserGoogleSignout from '../../../Pages/UserSide/UserGoogleSignout';
 import { removeUserData, setShowIsLoggedin } from '../../../Redux/authModal/isLoggedinSlice';
 import { Link } from 'react-router-dom';
 import { resetPropertyAddress } from '../../../Redux/sellPropertyDetails/propertyAddressSlice';
+import {useHistory} from 'react-router-dom';
+import { addPropertiesList } from '../../../Redux/userProperty/propertiesListSlice';
+import axios from 'axios';
 
 function UserHeader() {
   // const [showSignupModal, setShowSignupModal] = useState(false);
@@ -25,21 +28,18 @@ function UserHeader() {
   const showIsGoogleLoggedin = useSelector(state => state.showIsGoogleLoggedin.value);
   const userId = useSelector(state => state.showIsLoggedin.userId);
 
+  const history = useHistory();
   const dispatch = useDispatch()
+  const user_id = useSelector(state => state.showIsLoggedin.userId);
+  const token = localStorage.getItem('accessToken')
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    dispatch(setShowIsLoggedin({
-      showIsLoggedin: !!token
-    }));
-    console.log(showIsLoggedin, !!token);
-    // setIsLoggedIn(!!token);
-  }, [dispatch]);
   
   const handleLogout = (event) => {
     event.preventDefault();
     dispatch(resetPropertyAddress());
+    dispatch(setShowIsLoggedin({
+      showIsLoggedin: false
+    }));
     console.log('Data exists. Resetting the data...');
     localStorage.removeItem('accessToken');
     dispatch(removeUserData());
@@ -60,6 +60,47 @@ function UserHeader() {
         showSignupModal: false
       }));
     }
+  }, [dispatch]);
+
+  const handleMyProperty = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/property/myproperty/', {
+        params: {
+            user_id: user_id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        console.log('success');
+        console.log(response.data);
+        dispatch(addPropertiesList({
+            showPropertiesList: response.data
+        }));
+        history.push('/usermyproperty');
+      } else {
+        console.log('failed');
+        console.log(response.data);
+        const errorText = await response.text();
+        console.log('Error Details:', errorText);
+        console.log('Status', response.status);
+        console.log('Response', response);
+      }
+    } catch(error) {
+      if (error.response.status === 401) {
+        console.log('nope');
+        alert('Please login');
+      }
+      console.log('failed to sent the request', error.response);
+    }
+  }
+  useEffect(() => {
+    dispatch(setShowIsLoggedin({
+      showIsLoggedin: !!token
+    }));
+    console.log(showIsLoggedin, !!token);
+    // setIsLoggedIn(!!token);
   }, [dispatch]);
 
   return (
@@ -93,7 +134,7 @@ function UserHeader() {
                 </>
               )}
               <NavDropdown title="MANAGE" id="basic-nav-dropdown" className='manage-text'>
-                <NavDropdown.Item href="#action/3.1" className='main-bg'>MY LISTING</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.1" className='main-bg' onClick={() => handleMyProperty()}>MY LISTING</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2" className='main-bg'>MESSAGES</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3" className='main-bg'>HISTORY</NavDropdown.Item>
                 {/* <NavDropdown.Divider /> */}

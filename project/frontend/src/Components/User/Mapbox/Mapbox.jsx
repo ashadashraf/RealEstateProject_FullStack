@@ -1,4 +1,5 @@
 import '../../../App.css';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { useDispatch } from 'react-redux';
@@ -22,27 +23,45 @@ const Mapbox = () => {
         center: [lng, lat],
         zoom: zoom
       });
+      // document.querySelector('.mapboxgl-canvas').style.width = '700px';
+
       // Add a marker at a fixed location
-      // const marker = new mapboxgl.Marker()
-      //   .setLngLat([-71.9, 42.35]) // Set the initial marker location
-      //   .addTo(map.current);
-      map.current.on('move', () => {
-        setLng(map.current.getCenter().lng.toFixed(4));
-        setLat(map.current.getCenter().lat.toFixed(4));
-        setZoom(map.current.getZoom().toFixed(2));
+      map.current.on('load', () => {
+        const marker = new mapboxgl.Marker()
+          .setLngLat([-71.9, 42.35]) // Set the initial marker location
+          .addTo(map.current);
+        map.current.on('move', () => {
+          setLng(map.current.getCenter().lng.toFixed(4));
+          setLat(map.current.getCenter().lat.toFixed(4));
+          setZoom(map.current.getZoom().toFixed(2));
+        });
+        // Add a click event listener to the map
+        map.current.on('click', (e) => {
+          const {x, y} = e.point;
+          const lngLat = map.current.unproject([x, y]);
+          // Get the clicked coordinates
+          const { lng, lat } = lngLat;
+          console.log(e.lngLat);
+          dispatch(addAddress({ lng, lat }));
+          setSelectedMarkerLocation([lng, lat]);
+          // Set the marker's new location
+          // marker.setLngLat([lng, lat]).addTo(map.current);
+        });
+        handleResize();
       });
-      // Add a click event listener to the map
-      map.current.on('click', (e) => {
-        const {x, y} = e.point;
-        const lngLat = map.current.unproject([x, y]);
-        // Get the clicked coordinates
-        const { lng, lat } = lngLat;
-        console.log(e.lngLat);
-        dispatch(addAddress({ lng, lat }));
-        setSelectedMarkerLocation([lng, lat]);
-        // Set the marker's new location
-        // marker.setLngLat([lng, lat]).addTo(map.current);
-      });
+      const handleResize = () => {
+        const currentWidth = mapContainer.current.clientWidth;
+        const currentHeight = mapContainer.current.clientHeight;
+        // console.log(currentHeight, currentWidth);
+        map.current.resize();
+      };
+    
+      window.addEventListener('resize', handleResize);
+    
+      // Cleanup event listener on component unmount
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
     }, [lng, lat, zoom]);
     useEffect(() => {
       if (selectedMarkerLocation) {
@@ -64,10 +83,10 @@ const Mapbox = () => {
 
     return (
       <div>
-        <div className="sidebar">
+        {/* <div className="sidebar">
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
-        <div className="map-container">
+        </div> */}
+        <div className="map-container" style={{width: '100%'}}>
           <div ref={mapContainer} className="map" />
           {selectedMarkerLocation && (
             <div className="marker">

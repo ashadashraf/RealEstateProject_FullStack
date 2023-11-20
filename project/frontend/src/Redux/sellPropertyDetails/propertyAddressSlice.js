@@ -6,8 +6,8 @@ const initialState = {
     unit: '',
     city: '',
     state: '',
-    pincode: '',
-    coordinates: {},
+    pincode: null,
+    coordinates: {lat: 0, lng: 0},
 }
 
 export const propertyAddressSlice = createSlice({

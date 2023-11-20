@@ -1,0 +1,48 @@
+# .gitignore
+
+# Ignore virtual environment
+realestateproject/
+
+# Ignore environment variables file
+.env
+
+# Ignore database file
+db.sqlite3
+
+# Ignore static files (if using a different static file serving approach)
+/static/
+
+# Ignore media files (if using a different media file serving approach)
+/media/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+
+# Ignore local settings (if you have separate local settings)
+local_settings.py
+
+# Ignore IDE and editor files
+.vscode/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+
+# Ignore compiled files
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Jupyter Notebook files
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# Ignore secret key
+secret_key.txt
+
+# Ignore .DS_Store (Mac OS) and Thumbs.db (Windows)
+.DS_Store
+Thumbs.db

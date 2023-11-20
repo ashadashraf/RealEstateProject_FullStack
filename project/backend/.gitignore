@@ -10,10 +10,10 @@ realestateproject/
 db.sqlite3
 
 # Ignore static files (if using a different static file serving approach)
-/static/
+static/
 
 # Ignore media files (if using a different media file serving approach)
-/media/
+media/
 
 # Ignore compiled Python files
 __pycache__/

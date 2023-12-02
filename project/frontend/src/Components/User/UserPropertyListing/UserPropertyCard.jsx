@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPropertyDetail } from '../../../Redux/userProperty/propertyDetailSlice';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import UserMessages from '../UserMessages/UserMessages';
 
 const UserPropertyCard = () => {
     const properties = useSelector(state => state.showPropertiesList.showPropertiesList);
@@ -83,10 +84,22 @@ const UserPropertyCard = () => {
                                     <Card.Text className='text-left'>{property.lot_size} sqft lot</Card.Text>
                                 </Col>
                             </Row>
-                            
-                            <div className='d-flex justify-end mt-2'>
-                                <Button size='sm' variant="primary" className='text-white bg-blue-950 hover:bg-blue-900 hover:translate-y-[-2px] transition-transform'>Message</Button>
+                            <div className="text-center cursor-pointer z-10">
+                                <div className='d-flex justify-end mt-2'>
+                                    <Button size='sm' className='text-white bg-blue-950 hover:bg-blue-900 hover:translate-y-[-2px] transition-transform' data-drawer-target="drawer-right-card-list" data-drawer-show="drawer-right-card-list" data-drawer-placement="right" aria-controls="drawer-right-card-list">Message</Button>
+                                </div>
                             </div>
+
+                            <div id="drawer-right-card-list" className="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-50 md:w-75 dark:bg-gray-800" tabIndex="-1" aria-labelledby="drawer-right-label">
+                                <button type="button" data-drawer-hide="drawer-right-card-list" aria-controls="drawer-right-card-list" className="pb-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" >
+                                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    </svg>
+                                    <span className="sr-only">Close menu</span>
+                                </button>
+                                <UserMessages />
+                            </div>
+
                         </Card.Body>
                     </Card>
                 </Col>

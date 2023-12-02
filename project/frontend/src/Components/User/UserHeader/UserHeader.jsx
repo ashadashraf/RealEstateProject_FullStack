@@ -19,6 +19,8 @@ import { resetPropertyAddress } from '../../../Redux/sellPropertyDetails/propert
 import {useHistory} from 'react-router-dom';
 import { addPropertiesList } from '../../../Redux/userProperty/propertiesListSlice';
 import axios from 'axios';
+import UserMessages from '../UserMessages/UserMessages';
+import Button from 'react-bootstrap/Button';
 
 function UserHeader() {
   // const [showSignupModal, setShowSignupModal] = useState(false);
@@ -142,11 +144,20 @@ function UserHeader() {
                 <NavDropdown.Item href="#action/3.5" className='main-bg'>PROFILE</NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="#deets" className='text-white columns-1'><BsFillBagHeartFill style={{width: '1.2rem', height: '1.2rem'}} /></Nav.Link>
-              <Nav.Link href="#memes" className='text-white columns-1'><MdMessage style={{width: '1.4rem', height: '1.4rem', paddingTop: '0.1rem'}} /></Nav.Link>
+              <Nav.Link href="" className='text-white columns-1' data-drawer-target="drawer-right-card-list" data-drawer-show="drawer-right-card-list" data-drawer-placement="right" aria-controls="drawer-right-card-list"><MdMessage style={{width: '1.4rem', height: '1.4rem', paddingTop: '0.1rem'}} /></Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <div id="drawer-right-card-list" className="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-50 md:w-75 dark:bg-gray-800" tabIndex="-1" aria-labelledby="drawer-right-label">
+          <button type="button" data-drawer-hide="drawer-right-card-list" aria-controls="drawer-right-card-list" className="pb-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" >
+              <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+              </svg>
+              <span className="sr-only">Close menu</span>
+          </button>
+          <UserMessages />
+      </div>
     </React.Fragment>
   );
 }

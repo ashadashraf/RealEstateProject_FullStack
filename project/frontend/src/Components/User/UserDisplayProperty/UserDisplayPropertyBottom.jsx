@@ -52,7 +52,7 @@ const UserDisplayPropertyBottom = () => {
       id: 'openHouse',
       title: 'Open House',
       content: (
-        <Popover id="popover-basic" style={{maxWidth: '60vw'}} className='popover-container'>
+        <Popover id="popover-basic" style={{maxWidth: '60vw'}} classNameName='popover-container'>
           <Popover.Header as="h3"><b>Open House</b></Popover.Header>
           <Popover.Body className='popover-body'>
             <h2><b>Request a private showing</b></h2>
@@ -137,10 +137,10 @@ const UserDisplayPropertyBottom = () => {
               <Accordion.Item eventKey="0">
                 <Accordion.Header>Principal & Interest</Accordion.Header>
                 <Accordion.Body  className='bg-blue-400'>
-                  <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                  <div className="grid gap-4 mb-4 sm:grid-cols-2">
                       <div>
                           <label for="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" style={{textTransform: 'capitalize'}}>{property.property_type} Price</label>
-                          <input type="text" name="username" id="username" value={property.price} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" required="" />
+                          <input type="text" name="username" id="username" value={property.price} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" required="" />
                       </div>
                       <div>
                           <label hidden for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
@@ -148,17 +148,17 @@ const UserDisplayPropertyBottom = () => {
                       </div>
                       <div>
                           <label for="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Down Payment</label>
-                          <input type="text" name="username" id="username" value={property.accounts.down_payment ? property.accounts.down_payment : 0} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                          <input type="text" name="username" id="username" value={property.accounts.down_payment ? property.accounts.down_payment : 0} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                       </div>                        <div>
                           <label for="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">%</label>
-                          <input type="text" name="username" id="username" value={property.accounts.down_payment / property.price} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" />
+                          <input type="text" name="username" id="username" value={property.accounts.down_payment / property.price} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" />
                       </div>
                       <div>
                           <label for="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan Program</label>
-                          <input type="text" name="username" id="username" value={property.accounts.loan_years ? property.accounts.loan_years : 0} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                          <input type="text" name="username" id="username" value={property.accounts.loan_years ? property.accounts.loan_years : 0} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                       </div>                        <div>
                           <label for="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interest Rate (%)</label>
-                          <input type="text" name="username" id="username" value={property.accounts.interest_rate ? property.accounts.interest_rate : 0} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" />
+                          <input type="text" name="username" id="username" value={property.accounts.interest_rate ? property.accounts.interest_rate : 0} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" />
                       </div>
                   </div>
                 </Accordion.Body>
@@ -167,18 +167,18 @@ const UserDisplayPropertyBottom = () => {
                 <Accordion.Header>Property Taxes</Accordion.Header>
                 <Accordion.Body className='bg-red-400'>
                   <p style={{fontSize: 'smaller'}}>This estimate is based on the home value, property type, and an estimated local tax rate. Actual rate or taxes assessed may vary.</p>
-                <div class="grid gap-4 mb-4 sm:grid-cols-3">
+                <div className="grid gap-4 mb-4 sm:grid-cols-3">
                   <div>
                       <label for="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Home Price</label>
-                      <input type="text" name="username" id="username" value={property.price} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" required="" />
+                      <input type="text" name="username" id="username" value={property.price} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" required="" />
                   </div>
                   <div>
                       <label for="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" style={{textTransform: 'capitalize'}}>Tax Rate (%)</label>
-                      <input type="text" name="username" id="username" value={property.accounts.tax_rate ? property.accounts.tax_rate : 0} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" required="" />
+                      <input type="text" name="username" id="username" value={property.accounts.tax_rate ? property.accounts.tax_rate : 0} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" required="" />
                   </div>
                   <div>
                       <label for="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" style={{textTransform: 'capitalize'}}>Tax Price</label>
-                      <input type="text" name="username" id="username" value={property.price * (property.accounts.tax_rate?(property.accounts.tax_rate / 100):0)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" required="" />
+                      <input type="text" name="username" id="username" value={property.price * (property.accounts.tax_rate?(property.accounts.tax_rate / 100):0)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username.example" required="" />
                   </div>
                 </div>
                 </Accordion.Body>

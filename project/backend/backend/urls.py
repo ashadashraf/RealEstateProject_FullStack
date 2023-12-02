@@ -18,13 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from chat_channel.consumers import ChatConsumer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(('authentication.routers', 'authentication'), namespace='auth-api')),
     path('api/', include('rest_framework.urls')),
-    path('api/', include(('maps.routers', 'maps'), namespace='maps-api')),
-    path('api/', include(('data.urls', 'property'), namespace='property-api')),
+    path('api/maps/', include(('maps.routers', 'maps'), namespace='maps-api')),
+    path('api/property/', include(('data.urls', 'property'), namespace='property-api')),
+    path('chat/', include(('chat.urls', 'chat'), namespace='chat-api')),
+    # path('', include(('chat_channel.routing', 'chat_channel'), namespace='chat-channel')),
+    # path('agora/', include(('agora.urls', 'agora'), namespace='agora-api')),
 ]
 
 if settings.DEBUG:

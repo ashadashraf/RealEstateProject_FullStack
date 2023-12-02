@@ -15,6 +15,8 @@ db.sqlite3
 # Ignore media files (if using a different media file serving approach)
 /media/
 
+/chat/
+
 # Ignore compiled Python files
 __pycache__/
 *.pyc

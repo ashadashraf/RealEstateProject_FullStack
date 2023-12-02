@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from phonenumber_field.modelfields import PhoneNumberField
 # from data.models import Property
+from chat_channel.models import Message
+from django.utils import timezone
 
 # Create your models here.
 
@@ -47,7 +49,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     favourites = models.ManyToManyField('data.Property', related_name='favourites', blank=True)
-
+    last_read_date = models.DateTimeField(auto_now_add=True, blank=False, null=False)
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'phone_number']
 
@@ -55,3 +58,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.email}"
+    
+    def read(self):
+        self.last_read_date = timezone.now()
+        self.save()
+    
+    def unread_messages(self):
+        return Message.objects.filter(created_at__gt=self.last_read_date).count()

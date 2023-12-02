@@ -13,6 +13,7 @@ import propertyTypeLogo from '../../../images/property-type-logo.png';
 import dateLogo from '../../../images/date-logo.png';
 import parkingLogo from '../../../images/parking-logo.png';
 import axios from 'axios';
+import UserMessages from '../UserMessages/UserMessages';
 
 const UserDisplayPropertyMid = () => {
   const property = useSelector(state => state.showPropertyDetail.showPropertyDetail[0]);
@@ -23,7 +24,8 @@ const UserDisplayPropertyMid = () => {
   const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;
   const [favourites, setFavourites] = useState(null);
   const [isLiked, setIsLiked] = useState(null);
-  
+  const currentUser = useSelector(state => state.showIsLoggedin.userId);
+
   useEffect(() => {
     if (property.transaction_type === 'Sale') {
       setTransactionTypeColor('#099317');
@@ -84,7 +86,22 @@ const UserDisplayPropertyMid = () => {
               </svg>
               </Col>
               <Col className='d-flex justify-start'>
-              <Button size='sm' variant="primary" className='text-whit bg-primary'>Message</Button>
+              {/* <Button size='sm' variant="primary" className='text-whit bg-primary'>Message</Button> */}
+              <div className="text-center">
+                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                Message
+                </button>
+              </div>
+              <div id="drawer-right-example" className="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-black w-50 md:w-75 dark:bg-gray-800" tabIndex="-1" aria-labelledby="drawer-right-label">
+                <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" className="pb-3 text-gray-400 bg-transparent hover:bg-black hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" >
+                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span className="sr-only">Close menu</span>
+                </button>
+                <UserMessages propertyId={property.id} propertyUser={property.user_id} currentUser={currentUser} />
+              </div>
+
               </Col>
             </Row>
             <Row className='pt-3 text-blue-200'>

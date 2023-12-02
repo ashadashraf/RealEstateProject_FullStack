@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import signupReducer from './authModal/signupModalSlice';
@@ -8,6 +8,7 @@ import GoogleLoggedinReducer from './authModal/isGoogleLoggedinSlice';
 import propertyAddressReducer from './sellPropertyDetails/propertyAddressSlice';
 import propertiesListReducer from './userProperty/propertiesListSlice';
 import propertyDetailReducer from './userProperty/propertyDetailSlice';
+import chatMessagesReducer from './chatData/chatMessageSlice';
 
 const persistConfig = {
     key: 'root',
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
     showPropertyAddress: propertyAddressReducer,
     showPropertiesList: propertiesListReducer,
     showPropertyDetail: propertyDetailReducer,
+    chatMessages: chatMessagesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

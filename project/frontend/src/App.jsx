@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import './index.css';
@@ -15,14 +15,12 @@ import UserSideAddPropertyDocuments from './Pages/UserSide/UserSideAddPropertyDo
 import UserSideListProperties from './Pages/UserSide/UserSideListProperties';
 import UserSidePropertyDetail from './Pages/UserSide/UserSidePropertyDetail';
 import UserSideManageMyProperty from './Pages/UserSide/UserSideManageMyProperty';
+import VideoChat from './Pages/UserSide/VideoChat';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { setShowSocket } from './Redux/socketIO/socketSlice';
+// import socketIO from 'socket.io-client';
 
 const App = () => {
-  // var corsOptions = {
-  //   origin: "http://localhost:3000"
-  // };
-  
-  // app.use(cors(corsOptions));
-  // Private Route
   return (
     <Router>
       <div className="App">
@@ -50,6 +48,9 @@ const App = () => {
           </Route>
           <Route path='/usermyproperty'>
             <UserSideManageMyProperty />
+          </Route>
+          <Route path='/room/:roomID'>
+            <VideoChat />
           </Route>
           {/* <Route path='/usersignup'>
             <UserSideSignup />

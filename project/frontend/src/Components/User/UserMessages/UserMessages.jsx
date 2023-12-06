@@ -35,7 +35,7 @@ class Chat extends Component {
         propertyUser: this.props.propertyUser ? this.props.propertyUser : 'all',
         currentUser: this.props.currentUser,
       }
-      // WebSocketInstance.connect(data);
+      WebSocketInstance.connect(data);
       this.waitForSocketConnection(() => {
         console.log('Entered for connect');
         WebSocketInstance.initChatUser(this.props.currentUser);

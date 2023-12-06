@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { useDispatch } from 'react-redux';
 import { addAddress } from '../../../Redux/sellPropertyDetails/propertyAddressSlice';
+import axios from 'axios';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXNoYWRhc2hyYWYiLCJhIjoiY2xuMzZrd2luMGc1NjJqbXUzeXZudzRhZCJ9.6-dCIqLi0A5a8XpfJKJtEQ';
 
@@ -17,19 +18,62 @@ const Mapbox = () => {
   const [selectedMarkerLocation, setSelectedMarkerLocation] = useState(null);
   useEffect(() => {
       if (map.current) return; // initialize map only once
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [lng, lat],
-        zoom: zoom
-      });
-      // document.querySelector('.mapboxgl-canvas').style.width = '700px';
+      
+      axios.get('http://127.0.0.1:8000/api/maps/allcoordinates/')
+      .then(response => {
+        const geoJson = response.data;
+        map.current = new mapboxgl.Map({
+          container: mapContainer.current,
+          style: 'mapbox://styles/mapbox/streets-v12',
+          center: [lng, lat],
+          zoom: zoom
+        });
+        // document.querySelector('.mapboxgl-canvas').style.width = '700px';
 
-      // Add a marker at a fixed location
-      map.current.on('load', () => {
-        const marker = new mapboxgl.Marker()
-          .setLngLat([-71.9, 42.35]) // Set the initial marker location
-          .addTo(map.current);
+        // Add a marker at a fixed location
+        map.current.on('load', () => {
+          // const marker = new mapboxgl.Marker()
+          //   .setLngLat([-71.9, 42.35]) // Set the initial marker location
+          //   .addTo(map.current);
+
+            map.current.loadImage(
+              "https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png",
+              function (error, image) {
+                if (error) throw error;
+            
+                // Check if the image with the same name already exists
+                const existingImage = map.current.hasImage("custom-marker");
+                if (!existingImage) {
+                  map.current.addImage("custom-marker", image);
+                }
+            
+                // Add a GeoJSON source with multiple points
+                map.current.addSource("points", {
+                  type: "geojson",
+                  data: {
+                    type: "FeatureCollection",
+                    features: geoJson.features,
+                  },
+                });
+            
+                // Add a symbol layer
+                map.current.addLayer({
+                  id: "points",
+                  type: "symbol",
+                  source: "points",
+                  layout: {
+                    "icon-image": "custom-marker",
+                    // get the title name from the source's "title" property
+                    "text-field": ["get", "title"],
+                    "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                    "text-offset": [0, 1.25],
+                    "text-anchor": "top",
+                  },
+                });
+              }
+            );                        
+        })
+        
         map.current.on('move', () => {
           setLng(map.current.getCenter().lng.toFixed(4));
           setLat(map.current.getCenter().lat.toFixed(4));

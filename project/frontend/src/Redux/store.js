@@ -9,6 +9,7 @@ import propertyAddressReducer from './sellPropertyDetails/propertyAddressSlice';
 import propertiesListReducer from './userProperty/propertiesListSlice';
 import propertyDetailReducer from './userProperty/propertyDetailSlice';
 import chatMessagesReducer from './chatData/chatMessageSlice';
+import focusCoordinatesReducer from './mapCoordinates/focusCoordinatesSlice';
 
 const persistConfig = {
     key: 'root',
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
     showPropertiesList: propertiesListReducer,
     showPropertyDetail: propertyDetailReducer,
     chatMessages: chatMessagesReducer,
+    focusCoordinates: focusCoordinatesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

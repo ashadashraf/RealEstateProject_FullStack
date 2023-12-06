@@ -18,7 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from chat_channel.consumers import ChatConsumer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +25,7 @@ urlpatterns = [
     path('api/', include('rest_framework.urls')),
     path('api/maps/', include(('maps.routers', 'maps'), namespace='maps-api')),
     path('api/property/', include(('data.urls', 'property'), namespace='property-api')),
-    path('chat/', include(('chat.urls', 'chat'), namespace='chat-api')),
+    # path('chat/', include(('chat.urls', 'chat'), namespace='chat-api')),
     # path('', include(('chat_channel.routing', 'chat_channel'), namespace='chat-channel')),
     # path('agora/', include(('agora.urls', 'agora'), namespace='agora-api')),
 ]

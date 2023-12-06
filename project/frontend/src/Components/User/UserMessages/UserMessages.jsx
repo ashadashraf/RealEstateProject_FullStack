@@ -16,6 +16,7 @@ class Chat extends Component {
       messages: [],
       message: '',
       allClients: [],
+      subAllClients: [],
       selectedClientData: [],
       isSmallScreen: window.innerWidth <= 767,
       isTooltipVisible: false,
@@ -34,7 +35,7 @@ class Chat extends Component {
         propertyUser: this.props.propertyUser ? this.props.propertyUser : 'all',
         currentUser: this.props.currentUser,
       }
-      WebSocketInstance.connect(data);
+      // WebSocketInstance.connect(data);
       this.waitForSocketConnection(() => {
         console.log('Entered for connect');
         WebSocketInstance.initChatUser(this.props.currentUser);
@@ -45,7 +46,7 @@ class Chat extends Component {
     }
     window.addEventListener('resize', this.handleResize);
   }
-// Either call fetchAllClients and pass data as attribute.
+
   componentDidUpdate() {
     this.scrollToBottom();
     // this.updateHistory();
@@ -55,6 +56,7 @@ class Chat extends Component {
   componentWillUnmount() {
     this.setState({
       selectedClientData: '',
+      searchContent: '',
     })
     window.removeEventListener('resize', this.handleResize);
     WebSocketInstance.disconnect();
@@ -130,6 +132,7 @@ class Chat extends Component {
     const clientArray = Array.isArray(clients) ? clients : [clients];
     this.setState(() => ({
       allClients: [...clientArray],
+      subAllClients: [...clientArray],
     }), () => {
       console.log('Upload allClients:', this.state.allClients);
       this.componentDidUpdate();
@@ -143,6 +146,12 @@ class Chat extends Component {
       console.log(this.state.selectedClientData);
       console.log(this.state.selectedClientData[0].property_owner_id, this.props.currentUser);
     });
+  };
+
+  setSubAllClients = (data, callback) => {
+    this.setState({
+      subAllClients: data
+    }, callback);
   };
   
   messageChangeHandler = (event) => {
@@ -224,10 +233,26 @@ class Chat extends Component {
 
   handleSearchSubmit = (event) => {
     event.preventDefault();
-    if (this.state.searchContent) {
-      console.log(this.state.allClients);
+    let foundContent = null;
+  
+    for (let x = 0; x < this.state.allClients.length; x++) {
+      if (this.state.searchContent && this.state.allClients[x].author__username.startsWith(this.state.searchContent)) {
+        foundContent = this.state.allClients[x];
+        break;
+      }
     }
-  }
+  
+    foundContent 
+    ?
+    this.setSubAllClients([foundContent], () => {
+      console.log(this.state.subAllClients);
+    })
+    :
+    this.setSubAllClients(this.state.allClients, () => {
+      console.log(this.state.subAllClients);
+    });
+  };
+  
 
   isMessageExpired = (content) => {
     const match = /^schedule (\d{1,2}\/\d{1,2}\/\d{4}, \d{1,2}:\d{2}:\d{2} (AM|PM)) expire (\d{1,2}\/\d{1,2}\/\d{4}, \d{1,2}:\d{2}:\d{2} (AM|PM))$/i.exec(content);
@@ -269,7 +294,7 @@ class Chat extends Component {
             <form onSubmit={(event) => this.handleSearchSubmit(event)}>
               <div className="flex">
                 <div className="relative w-full">
-                  <input onChange={(event) => this.searchContentChangeHandler(event)} type="search" id="search-dropdown" className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search by property name" required></input>
+                  <input onChange={(event) => this.searchContentChangeHandler(event)} value={this.state.searchContent} type="search" id="search-dropdown" className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search by property name" required></input>
                   <button type="submit" className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                       <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
@@ -280,7 +305,7 @@ class Chat extends Component {
               </div>
             </form>
             <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
-            {this.state.allClients && this.state.allClients.map((client, index) => (
+            {this.state.subAllClients && this.state.subAllClients.map((client, index) => (
               <li key={index} className="py-3 sm:py-4 mt-2 client-message-list" onClick={() => this.handleIndividualChat(client)}>
                 <div className="flex items-center space-x-4 rtl:space-x-reverse p-2">
                   <div className="flex-shrink-0">
@@ -390,20 +415,20 @@ class Chat extends Component {
                     {message.author !== this.props.username && (
                       <a href='#'>
                         <img
-                          className='w-10 h-10 rounded-full'
+                          className='w-8 h-8 rounded-full'
                           src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
                           alt='Sender Image'
                         />
                       </a>
                     )}
                     <div className={`${message.author !== this.props.username ? 'pl' : 'pr'}-1`}>
-                      <p
+                      <div
                         className={`text-${
                           message.author !== this.props.username ? 'left' : 'right'
                         } p-2 ${
                           message.author === this.props.username ? 'bg-green-100' : 'bg-red-100'
                         }`}
-                        style={{borderRadius: '10px'}}
+                        style={{borderRadius: '10px', maxWidth: '28vw'}}
                       >
                         {/^schedule (\d{1,2}\/\d{1,2}\/\d{4}, \d{1,2}:\d{2}:\d{2} (AM|PM)) expire (\d{1,2}\/\d{1,2}\/\d{4}, \d{1,2}:\d{2}:\d{2} (AM|PM))$/i.test(message.content) ? (
                           <div class={`max-w-sm pl-6 pr-6 pt-3 pb-3 bg-gray-800 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ${this.isMessageExpired(message.content) ? 'cursor-not-allowed opacity-80' : ''}`}>
@@ -432,12 +457,12 @@ class Chat extends Component {
                         ) : (
                           message.content
                         )}
-                      </p>
+                      </div>
                     </div>
                     {message.author === this.props.username && (
                       <a href='#'>
                         <img
-                          className='w-10 h-10 rounded-full'
+                          className='w-8 h-8 rounded-full'
                           src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                           alt="sender image"
                         />

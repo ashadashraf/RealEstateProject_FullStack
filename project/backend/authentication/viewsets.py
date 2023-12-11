@@ -1,3 +1,9 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+
+import django
+django.setup()
+
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
 from authentication.models import User
 from rest_framework import viewsets, filters, status

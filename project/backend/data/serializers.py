@@ -1,3 +1,9 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+
+import django
+django.setup()
+
 from rest_framework import serializers
 from .models import Property, Locality, GeoCordinates, PropertyAccounts, OpenHouse
 from .models import Appliances, Basement, FloorCovering, Rooms, IndoorFeatures, BuildingAmenities

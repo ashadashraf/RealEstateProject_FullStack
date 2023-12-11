@@ -1,3 +1,9 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+
+import django
+django.setup()
+
 from maps.models import Maps
 from data.models import Property
 from data.serializers import GeoCordinatesSerializer

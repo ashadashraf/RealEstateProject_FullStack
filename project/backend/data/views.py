@@ -1,3 +1,9 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+
+import django
+django.setup()
+
 from rest_framework import generics, viewsets, parsers
 from rest_framework.response import Response
 from rest_framework import status

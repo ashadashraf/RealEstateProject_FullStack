@@ -2,6 +2,7 @@ import React from 'react'
 import Container from 'react-bootstrap/Container';
 import '../../../App.css';
 import '../../../index.css';
+import { constructApiUrl } from '../../../Services/ApiUtils';
 import house from '../../../images/browse-house-1.jpg';
 import apartment from '../../../images/browse-apartment-2.jpg';
 import business_complex from '../../../images/browse-business_complex-3.jpg';
@@ -17,7 +18,9 @@ const UserHomeMid = () => {
   const token = localStorage.getItem('accessToken')
   const handleBrowseProperty = async (browseType) => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/property/browsebytype/', {
+      const apiEndpoint = 'api/property/browsebytype/';
+      // const response = await axios.get('http://127.0.0.1:8000/api/property/browsebytype/', {
+        const response = await axios.get(constructApiUrl(apiEndpoint), {
         params: {
           browse_type: browseType,
         },

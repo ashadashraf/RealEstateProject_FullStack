@@ -8,6 +8,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { resetPropertyAddress } from '../../../../Redux/sellPropertyDetails/propertyAddressSlice';
+import { constructApiUrl } from '../../../../Services/ApiUtils';
 
 const UserPostHouseDetails = () => {
   const [validated, setValidated] = useState(false);
@@ -74,7 +75,8 @@ const UserPostHouseDetails = () => {
       for (var pair of formDataObject.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
       }
-      const response = await fetch('http://127.0.0.1:8000/api/property/register/', {
+      const apiEndpoint = 'api/property/register/';
+      const response = await fetch(constructApiUrl(apiEndpoint), {
         method: 'POST',
         body: formDataObject,
         headers: {
@@ -102,7 +104,8 @@ const UserPostHouseDetails = () => {
     }
 
     // try {
-    //   fetch('http://127.0.0.1:8000/api/property/addfiles/', {
+    //   const apiEndpoint = 'api/property/addfiles/';
+    //   fetch(constructApiUrl(apiEndpoint), {
     //     method: 'POST',
     //     body: fileData,
     //   }).then((response) => {

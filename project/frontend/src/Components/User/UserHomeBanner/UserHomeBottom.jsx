@@ -2,7 +2,7 @@ import React from 'react'
 import Container from 'react-bootstrap/Container';
 import '../../../App.css';
 import '../../../index.css';
-// import './UserHomeBanner.css';
+import './UserHomeBanner.css';
 import buy from '../../../images/type-1.webp';
 import rent from '../../../images/type-2.webp';
 import sell from '../../../images/type-3.webp';
@@ -11,7 +11,7 @@ import lease from '../../../images/type-4.webp';
 const UserHomeBottom = () => {
   return (
     <React.Fragment>
-      <div className='row pl-5 pr-5 bottom-container'>
+      <div className='row pl-1 pr-1 bottom-container'>
         <div className="col-2 bottom-image-container" >
           <img src={buy} alt="buy" className='bottom-img' />
           <div className='bottom-text p-2 font-semibold' style={{backgroundColor: '#C9C2F6'}}><span className='text-indigo-900'>BUY</span> PROPERTY</div>

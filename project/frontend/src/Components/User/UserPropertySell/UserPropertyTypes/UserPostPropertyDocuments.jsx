@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import {useHistory} from 'react-router-dom';
+import { constructApiUrl } from '../../../../Services/ApiUtils';
 
 
 const UserPostPropertyDocuments = () => {
@@ -74,7 +75,8 @@ const UserPostPropertyDocuments = () => {
         
     
         try {
-          const response = await fetch('http://127.0.0.1:8000/api/property/adddocuments/', {
+          const apiEndpoint = 'api/property/adddocuments/';
+          const response = await fetch(constructApiUrl(apiEndpoint), {
             method: 'POST',
             body: formDataObject,
             headers: {

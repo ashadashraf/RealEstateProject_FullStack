@@ -8,6 +8,7 @@ import { addPropertyDetail } from '../../../Redux/userProperty/propertyDetailSli
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import UserMessages from '../UserMessages/UserMessages';
+import { constructApiUrl } from '../../../Services/ApiUtils';
 
 const UserPropertyCard = () => {
     const properties = useSelector(state => state.showPropertiesList.showPropertiesList);
@@ -15,7 +16,8 @@ const UserPropertyCard = () => {
     const history = useHistory();
     const handlePropertyOverview = async (id) => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/property/details/', {
+            const apiEndpoint = 'api/property/details/';
+            const response = await axios.get(constructApiUrl(apiEndpoint), {
                 params: {
                     'property_id' : id
                 },

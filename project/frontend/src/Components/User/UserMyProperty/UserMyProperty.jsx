@@ -36,7 +36,12 @@ const UserMyProperty = () => {
 
             <hr />
             <Row className='w-100'>
-                {properties[0] ? <UserPropertyCard /> : (
+                {properties[0] ? 
+                    <div>
+                        <UserPropertyCard /> 
+                        {/* <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Push</button>
+                        <button type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Pull</button> */}
+                    </div>: (
                     <div className='p-5'>
                         <h4 className='w-100' style={{fontSize: '1.5vw'}}><b>!</b> You haven't posted any property yet</h4>
                         <div className='d-flex justify-center mt-3'>

@@ -5,8 +5,10 @@ import mapboxgl from 'mapbox-gl';
 import { useDispatch } from 'react-redux';
 import { addAddress } from '../../../Redux/sellPropertyDetails/propertyAddressSlice';
 import axios from 'axios';
+import { MapBoxToken } from '../../../Services/Keys';
+import { constructApiUrl } from '../../../Services/ApiUtils';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiYXNoYWRhc2hyYWYiLCJhIjoiY2xuMzZrd2luMGc1NjJqbXUzeXZudzRhZCJ9.6-dCIqLi0A5a8XpfJKJtEQ';
+mapboxgl.accessToken = MapBoxToken;
 
 const Mapbox = () => {
   const dispatch = useDispatch();
@@ -18,8 +20,8 @@ const Mapbox = () => {
   const [selectedMarkerLocation, setSelectedMarkerLocation] = useState(null);
   useEffect(() => {
       if (map.current) return; // initialize map only once
-      
-      axios.get('http://127.0.0.1:8000/api/maps/allcoordinates/')
+      const apiEndpoint = 'api/maps/allcoordinates/';
+      axios.get(constructApiUrl(apiEndpoint))
       .then(response => {
         const geoJson = response.data;
         map.current = new mapboxgl.Map({

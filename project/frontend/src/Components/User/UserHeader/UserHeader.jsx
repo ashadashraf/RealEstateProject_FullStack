@@ -20,7 +20,7 @@ import {useHistory} from 'react-router-dom';
 import { addPropertiesList } from '../../../Redux/userProperty/propertiesListSlice';
 import axios from 'axios';
 import UserMessages from '../UserMessages/UserMessages';
-import Button from 'react-bootstrap/Button';
+import { constructApiUrl } from '../../../Services/ApiUtils';
 
 function UserHeader() {
   // const [showSignupModal, setShowSignupModal] = useState(false);
@@ -66,7 +66,8 @@ function UserHeader() {
 
   const handleMyProperty = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/property/myproperty/', {
+      const apiEndpoint = 'api/property/myproperty/';
+      const response = await axios.get(constructApiUrl(apiEndpoint), {
         params: {
             user_id: user_id,
         },
@@ -163,56 +164,3 @@ function UserHeader() {
 }
 
 export default UserHeader;
-
-
-
-
-
-
-// import React from 'react';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import Container from 'react-bootstrap/Container';
-// import Nav from 'react-bootstrap/Nav';
-// import Navbar from 'react-bootstrap/Navbar';
-// import NavDropdown from 'react-bootstrap/NavDropdown';
-// import { BsFillBagHeartFill } from 'react-icons/bs';
-// import { MdMessage } from 'react-icons/md';
-// import './UserHeader.css';
-// import { useHistory } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
-// import App from '../../../App';
-
-// function UserHeader() {
-//   const history = useHistory();
-
-//   return (
-//     <React.Fragment>
-//       <Navbar collapseOnSelect expand="lg" className="bg-home-blue">
-//         <Container width='100vw'>
-//           <Navbar.Toggle aria-controls="basic-navbar-nav" className='bg-white' />
-//           <Navbar.Collapse id="basic-navbar-nav" className='row'>
-//             <Nav className="inline-flex justify-around columns-auto">
-//               <Nav.Link href="#features" className='text-white columns-1'>BUY</Nav.Link>
-//               <Nav.Link href="#pricing" className='text-white columns-1'>SELL</Nav.Link>
-//               <Navbar.Brand href="#home" style={{letterSpacing: '12px', fontFamily: 'Koulen', fontSize: '20px', paddingBottom: '0rem', paddingTop: '0.2rem'}} className='text-white mx-4'>RYKERZ REAL ESTATES</Navbar.Brand>
-//               <Link to='/usersignup' className="text-white columns-1 mt-2" >SIGN UP</Link>
-//               <NavDropdown title="MANAGE" id="basic-nav-dropdown" className='manage-text'>
-//                 <NavDropdown.Item href="#action/3.1" className='main-bg'>MY LISTING</NavDropdown.Item>
-//                 <NavDropdown.Item href="#action/3.2" className='main-bg'>MESSAGES</NavDropdown.Item>
-//                 <NavDropdown.Item href="#action/3.3" className='main-bg'>HISTORY</NavDropdown.Item>
-//                 {/* <NavDropdown.Divider /> */}
-//                 <NavDropdown.Item href="#action/3.4" className='main-bg'>PAYMENT</NavDropdown.Item>
-//                 <NavDropdown.Item href="#action/3.5" className='main-bg'>PROFILE</NavDropdown.Item>
-//               </NavDropdown>
-//               <Nav.Link href="#deets" className='text-white columns-1'><BsFillBagHeartFill style={{width: '1.2rem', height: '1.2rem'}} /></Nav.Link>
-//               <Nav.Link href="#memes" className='text-white columns-1'><MdMessage style={{width: '1.4rem', height: '1.4rem', paddingTop: '0.1rem'}} /></Nav.Link>
-//             </Nav>
-//           </Navbar.Collapse>
-//         </Container>
-//       </Navbar>
-
-//     </React.Fragment>
-//   );
-// }
-
-// export default UserHeader;

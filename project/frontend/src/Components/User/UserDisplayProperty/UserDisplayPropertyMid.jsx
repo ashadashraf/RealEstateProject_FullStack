@@ -14,6 +14,7 @@ import dateLogo from '../../../images/date-logo.png';
 import parkingLogo from '../../../images/parking-logo.png';
 import axios from 'axios';
 import UserMessages from '../UserMessages/UserMessages';
+import { constructApiUrl } from '../../../Services/ApiUtils';
 
 const UserDisplayPropertyMid = () => {
   const property = useSelector(state => state.showPropertyDetail.showPropertyDetail[0]);
@@ -42,7 +43,8 @@ const UserDisplayPropertyMid = () => {
   const handlePropertyLike = async () => {
     const token = localStorage.getItem('accessToken');
     try {
-      const response = await axios.put('http://127.0.0.1:8000/api/property/favourite/',
+      const apiEndpoint = 'api/property/favourite/';
+      const response = await axios.put(constructApiUrl(apiEndpoint),
       {property_id: property.id},
       {
         headers: {

@@ -4,8 +4,9 @@ import { gapi } from 'gapi-script';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowIsLoggedin } from '../../Redux/authModal/isLoggedinSlice';
 import { setShowIsGoogleLoggedin } from '../../Redux/authModal/isGoogleLoggedinSlice';
+import { GoogleClientId } from '../../Services/Keys';
 
-const clientId = "326905070026-tf2q1rkmteq5ft6ssg0155k7s3m8l5uf.apps.googleusercontent.com";
+const clientId = GoogleClientId;
 
 function UserGoogleSignin() {
     const dispatch = useDispatch();

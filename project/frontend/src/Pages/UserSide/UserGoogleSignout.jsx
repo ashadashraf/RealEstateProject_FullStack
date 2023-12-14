@@ -1,11 +1,11 @@
 import { GoogleLogout } from 'react-google-login';
 import '../../App.css';
-import { useEffect } from 'react';
 import { setShowIsGoogleLoggedin } from '../../Redux/authModal/isGoogleLoggedinSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowIsLoggedin } from '../../Redux/authModal/isLoggedinSlice';
+import { GoogleClientId } from '../../Services/Keys';
 
-const clientId = "326905070026-tf2q1rkmteq5ft6ssg0155k7s3m8l5uf.apps.googleusercontent.com";
+const clientId = GoogleClientId;
 
 function UserGoogleSignout() {
     const dispatch = useDispatch();

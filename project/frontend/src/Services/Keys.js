@@ -1,0 +1,2 @@
+export const GoogleClientId = "326905070026-tf2q1rkmteq5ft6ssg0155k7s3m8l5uf.apps.googleusercontent.com";
+export const MapBoxToken = "pk.eyJ1IjoiYXNoYWRhc2hyYWYiLCJhIjoiY2xuMzZrd2luMGc1NjJqbXUzeXZudzRhZCJ9.6-dCIqLi0A5a8XpfJKJtEQ";

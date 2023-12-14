@@ -23,8 +23,10 @@ import { setShowSigninModal } from '../../Redux/authModal/signinModalSlice';
 import UserGoogleSignin from './UserGoogleSignin';
 import UserGoogleSignout from './UserGoogleSignout';
 import { gapi } from 'gapi-script';
+import { GoogleClientId } from '../../Services/Keys';
+import { constructApiUrl } from '../../Services/ApiUtils';
 
-const clientId = "326905070026-tf2q1rkmteq5ft6ssg0155k7s3m8l5uf.apps.googleusercontent.com";
+const clientId = GoogleClientId;
 
 export default function UserSideSignup() {
   const dispatch = useDispatch();
@@ -52,7 +54,9 @@ export default function UserSideSignup() {
       return alert('enter a valid password')
     }
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/auth/register/`, {
+      const apiEndpoint = 'api/auth/register/';
+      // const response = await fetch(`http://127.0.0.1:8000/api/auth/register/`, {
+      const response = await fetch(constructApiUrl(apiEndpoint), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

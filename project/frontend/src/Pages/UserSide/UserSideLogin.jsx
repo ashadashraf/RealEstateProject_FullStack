@@ -20,8 +20,10 @@ import { setShowSignupModal } from '../../Redux/authModal/signupModalSlice';
 import UserGoogleSignin from './UserGoogleSignin';
 import { gapi } from 'gapi-script';
 import { setShowIsLoggedin, setUserId, setUsername } from '../../Redux/authModal/isLoggedinSlice';
+import { GoogleClientId } from '../../Services/Keys';
+import { constructApiUrl } from '../../Services/ApiUtils';
 
-const clientId = "326905070026-tf2q1rkmteq5ft6ssg0155k7s3m8l5uf.apps.googleusercontent.com";
+const clientId = GoogleClientId;
 
 export default function UserSideLogin() {
   const dispatch = useDispatch();
@@ -52,7 +54,9 @@ export default function UserSideLogin() {
     setError('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
+      const apiEndpoint = 'api/auth/login/';
+      // const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
+      const response = await fetch(constructApiUrl(apiEndpoint), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

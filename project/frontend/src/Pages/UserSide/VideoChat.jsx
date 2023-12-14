@@ -22,7 +22,7 @@ const VideoChat = () => {
             sharedLinks: [
               {
                 name: 'Copy link',
-                url: `https://rykerzrealestates.netlify.app/room/${roomID}`
+                url: `https://www.ashadashraf.com/room/${roomID}`
                 // url: `http://localhost:5173/room/${roomID}`
               },
             ],

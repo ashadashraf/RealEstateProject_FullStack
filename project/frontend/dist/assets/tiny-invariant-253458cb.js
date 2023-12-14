@@ -1,0 +1,1 @@
+import{a}from"./@zegocloud-df1323c4.js";var i=!0,t="Invariant failed";function c(n,r){if(!n){if(i)throw new Error(t);var o=typeof r=="function"?r():r,e=o?"".concat(t,": ").concat(o):t;throw new Error(e)}}const u=Object.freeze(Object.defineProperty({__proto__:null,default:c},Symbol.toStringTag,{value:"Module"})),d=a(u);export{c as i,d as r};

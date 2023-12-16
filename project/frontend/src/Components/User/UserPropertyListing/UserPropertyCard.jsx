@@ -12,6 +12,7 @@ import { constructApiUrl } from '../../../Services/ApiUtils';
 
 const UserPropertyCard = () => {
     const properties = useSelector(state => state.showPropertiesList.showPropertiesList);
+    console.log(properties);
     const dispatch = useDispatch();
     const history = useHistory();
     const handlePropertyOverview = async (id) => {
@@ -47,7 +48,7 @@ const UserPropertyCard = () => {
             {properties.map((property) => (
                 <Col key={property.id} xs={12} sm={6} className='p-1 m-0'>
                     <Card className='mb-3 cursor-pointer' onClick={() => handlePropertyOverview(property.id)} style={{ width: '100%' }}>
-                        <Card.Img variant="top" style={{height: '15vw'}} src={property.images[0].image} />
+                        {property.images[0] && <Card.Img variant="top" style={{height: '15vw'}} src={property.images[0].image} />}
                         <Card.Body>
                             <Row className='d-flex justify-between'>
                                 <Col>
@@ -86,7 +87,7 @@ const UserPropertyCard = () => {
                                     <Card.Text className='text-left'>{property.lot_size} sqft lot</Card.Text>
                                 </Col>
                             </Row>
-                            <div className="text-center cursor-pointer z-10">
+                            {/* <div className="text-center cursor-pointer z-10">
                                 <div className='d-flex justify-end mt-2'>
                                     <Button size='sm' className='text-white bg-blue-950 hover:bg-blue-900 hover:translate-y-[-2px] transition-transform' data-drawer-target="drawer-right-card-list" data-drawer-show="drawer-right-card-list" data-drawer-placement="right" aria-controls="drawer-right-card-list">Message</Button>
                                 </div>
@@ -100,7 +101,7 @@ const UserPropertyCard = () => {
                                     <span className="sr-only">Close menu</span>
                                 </button>
                                 <UserMessages />
-                            </div>
+                            </div> */}
 
                         </Card.Body>
                     </Card>

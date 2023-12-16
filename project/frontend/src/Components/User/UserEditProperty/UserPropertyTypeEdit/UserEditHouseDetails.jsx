@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -7,10 +7,10 @@ import Accordion from 'react-bootstrap/Accordion';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { resetPropertyAddress } from '../../../../Redux/sellPropertyDetails/propertyAddressSlice';
 import { constructApiUrl } from '../../../../Services/ApiUtils';
+import axios from 'axios';
 
-const UserPostHouseDetails = () => {
+const UserEditHouseDetails = () => {
   const [validated, setValidated] = useState(false);
   const history = useHistory();
   const currentDate = new Date();
@@ -19,7 +19,8 @@ const UserPostHouseDetails = () => {
   const day = String(currentDate.getDate()).padStart(2, '0');
 
   const formattedDate = `${year}-${month}-${day}`;
-
+  const property = useSelector(state => state.showPropertyDetail.showPropertyDetail);
+  console.log(property);
   const handleSubmit = async (event) => {
     event.preventDefault();
     
@@ -44,55 +45,32 @@ const UserPostHouseDetails = () => {
       }
     };
     
-    // Append form fields
     handleNestedObjects(formData);
-
-    // const imagesArray = [];
-
-    // for (let i = 0; i < imageFile.length; i++) {
-    //   imagesArray.push(imageFile[i]);
-    // }
-
-    // formDataObject.append('property_images', JSON.stringify(imagesArray));
-
-    // const videosArray = [];
-
-    // for (let i = 0; i < videoFile.length; i++) {
-    //   videosArray.push(videoFile[i]);
-    // }
-
-    // formDataObject.append('property_videos', JSON.stringify(videosArray));
 
     for (var pair of formDataObject.entries()) {
       console.log(pair[0] + ': ' + pair[1]);
     }
 
     const token = localStorage.getItem('accessToken');
-    // fileData.append('userId', formData.owner_id);
-
+    
     try {
       console.log(formDataObject);
-      for (var pair of formDataObject.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-      }
-      const apiEndpoint = 'api/property/register/';
+      const apiEndpoint = 'api/property/update/';
       const response = await fetch(constructApiUrl(apiEndpoint), {
-        method: 'POST',
+        method: 'PUT',
         body: formDataObject,
         headers: {
-          // "Authorization": `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         }
-      })
+      });
 
       if (response.ok) {
-        console.log('PropertyAdded');
+        console.log('PropertyUpdated');
         const data = await response.json();
         console.log(data)
-        dispatch(resetPropertyAddress())
-        localStorage.setItem('propertyId', data.id)
-        history.push('/postpropertydocuments');
+        history.push('/usermyproperty');
       } else {
-        console.log('Failed to add property');
+        console.log('Failed to update property');
         const errorText = await response.text();
         console.log('Error Details:', errorText);
         console.log('status', response.status);
@@ -102,24 +80,6 @@ const UserPostHouseDetails = () => {
     } catch (error) {
       console.error("Error in senting request", error);
     }
-
-    // try {
-    //   const apiEndpoint = 'api/property/addfiles/';
-    //   fetch(constructApiUrl(apiEndpoint), {
-    //     method: 'POST',
-    //     body: fileData,
-    //   }).then((response) => {
-    //     if (response.ok) {
-    //       console.log('Property Files added');
-    //       console.log(response);
-    //     } else {
-    //       console.log('Failed to add property files')
-    //       console.log(response);
-    //     }
-    //   });
-    // } catch {
-    //   console.log('Error in sending request for property files');
-    // }
     setValidated(true);
   };
 
@@ -138,313 +98,155 @@ const UserPostHouseDetails = () => {
   const view = ['city', 'territorial', 'mountain', 'water', 'park', 'view_none'];
 
   const dispatch = useDispatch();
-  const transactionType = useSelector(state => state.showPropertyAddress.transactionType);
-  const address = useSelector(state => state.showPropertyAddress.address);
-  const unit = useSelector(state => state.showPropertyAddress.unit);
-  const city = useSelector(state => state.showPropertyAddress.city);
-  const state = useSelector(state => state.showPropertyAddress.state);
-  const pincode = useSelector(state => state.showPropertyAddress.pincode);
-  const coordinates = useSelector(state => state.showPropertyAddress.coordinates);
   const userId = useSelector(state => state.showIsLoggedin.userId);
   const ownerId = userId;
-
-  const {latitude, longitude} = coordinates;
-
-  // const [formData, setFormData] = useState({
-  //   user_id: ownerId,
-  //   phone_number: '1122334455',
-  //   email: 'ashad@gmail.com',
-  //   transaction_type: transactionType,
-  //   property_name: 'Fajnassawa',
-  //   property_type: 'house',
-  //   address: address,
-  //   locality: {
-  //     pincode: pincode,
-  //     unit: unit,
-  //     district: city,
-  //     state: state,
-  //   },
-  //   coordinates: {
-  //     latitude: coordinates.lat,
-  //     longitude: coordinates.lng,
-  //   },
-  //   price: '1342523',
-  //   virtual_tour_url: 'www.entho.com',
-  //   basement_square_feet: '253',
-  //   garage_square_feet: '123',
-  //   description: 's;jhfpoejgnf;ejgrenwo;fnvfjsdjlvgshdb',
-  //   bedroom: 0,
-  //   bathroom: 0,
-  //   finished_square_feet: '234',
-  //   lot_size: '534',
-  //   year_build: formattedDate,
-  //   remodal_year: formattedDate,
-  //   open_house: {
-  //     date: '',
-  //     start_time: '',
-  //     end_time: '',
-  //   },
-  //   related_website: 'ar.com',
-  //   more_description: 'sajfbvvkjsajsahksajv',
-  //   appliances: {
-  //     dishwasher: false,
-  //     oven: false,
-  //     dry: false,
-  //     refrigerator: false,
-  //     freezer: false,
-  //     trash_compator: false,
-  //     garbage_disposal: false,
-  //     washer: false,
-  //     micro_wave: false,
-  //   },
-  //   basement: {
-  //     finished: false,
-  //     unfinished: false,
-  //     partially_finished: false,
-  //   },
-  //   floor_covering: {
-  //     carpet: false,
-  //     slate: false,
-  //     concrete: false,
-  //     softwood: false,
-  //     hardwood: false,
-  //     tile: false,
-  //     laminate: false,
-  //     other_floor_covering: false,
-  //     linoleum: false,
-  //   },
-  //   rooms: {
-  //     breakfast_nook: false,
-  //     office: false,
-  //     dining_room: false,
-  //     pantry: false,
-  //     family_room: false,
-  //     recreation_room: false,
-  //     laundry_room: false,
-  //     workshop: false,
-  //     library: false,
-  //     master_room: false,
-  //     total_rooms: '5',
-  //   },
-  //   indoor_features: {
-  //     security_system: false,
-  //     cable: false,
-  //     ceiling_fans: false,
-  //     fire_place: false,
-  //     wired: false,
-  //   },
-  //   accounts: {
-  //     down_payment: '',
-  //     loan_years: '',
-  //     interest_rate: '',
-  //     tax_rate: '',
-  //   },
-  //   building_amenities: {
-  //     gated_entry: false,
-  //     near_transportation: false,
-  //     controlled_access: false,
-  //     storage: false,
-  //     elevator: false,
-  //   },
-  //   architectural_style: {
-  //     bungalow: false,
-  //     modern: false,
-  //     villa: false,
-  //     loft: false,
-  //   },
-  //   exterior: {
-  //     brick: false,
-  //     stucco: false,
-  //     cement: false,
-  //     vinyl: false,
-  //     wood: false,
-  //     metal: false,
-  //     stone: false,
-  //     other_exterior: false,
-  //   },
-  //   outdoor_amenities: {
-  //     balcony: false,
-  //     barbecue_area: false,
-  //     pond: false,
-  //     pool: false,
-  //     porch: false,
-  //     rv_parking: false,
-  //     water_front: false,
-  //     spa: false,
-  //     sprinkler_system: false,
-  //   },
-  //   parking: {
-  //     carport: false,
-  //     off_street: false,
-  //     garage_attached: false,
-  //     on_street: false,
-  //     garage_detached: false,
-  //     parking_spaces: '2',
-  //   },
-  //   roof: {
-  //     asphalt: false,
-  //     concrete: false,
-  //     build_up: false,
-  //     slate: false,
-  //     composition: false,
-  //     tile: false,
-  //     metal: false,
-  //   },
-  //   view: {
-  //     city: false,
-  //     territorial: false,
-  //     mountain: false,
-  //     water: false,
-  //     park: false,
-  //   },
-  // });
-
   const [formData, setFormData] = useState({
+    property_id: property.id,
     user_id: ownerId,
-    phone_number: '',
-    email: '',
-    transaction_type: transactionType,
-    property_name: '',
-    property_type: 'house',
-    address: address,
+    phone_number: property.phone_number,
+    email: property.email,
+    transaction_type: property.transaction_type,
+    property_name: property.property_name,
+    property_type: property.property_type,
+    address: property.address,
     locality: {
-      pincode: pincode,
-      unit: unit,
-      district: city,
-      state: state,
+      pincode: property.locality.pincode,
+      unit: property.locality.unit,
+      district: property.locality.district,
+      state: property.locality.state,
     },
     coordinates: {
-      latitude: coordinates.lat,
-      longitude: coordinates.lng,
+      latitude: property.coordinates.latitude,
+      longitude: property.coordinates.longitude,
     },
-    price: '',
-    virtual_tour_url: '',
-    basement_square_feet: '',
-    garage_square_feet: '',
-    description: '',
-    bedroom: null,
-    bathroom: null,
-    finished_square_feet: '',
-    lot_size: '',
-    year_build: formattedDate,
-    remodal_year: formattedDate,
+    price: property.price,
+    virtual_tour_url: property.virtual_tour_url,
+    basement_square_feet: property.basement_square_feet,
+    garage_square_feet: property.garage_square_feet,
+    description: property.description,
+    bedroom: property.bedroom,
+    bathroom: property.bathroom,
+    finished_square_feet: property.finished_square_feet,
+    lot_size: property.lot_size,
+    year_build: property.year_build,
+    remodal_year: property.remodal_year,
     open_house: {
-      date: '',
-      start_time: '',
-      end_time: '',
+      date: property.open_house.date,
+      start_time: property.open_house.start_time,
+      end_time: property.open_house.end_time,
     },
-    related_website: '',
-    more_description: '',
+    related_website: property.related_website,
+    more_description: property.more_description,
     appliances: {
-      dishwasher: false,
-      oven: false,
-      dry: false,
-      refrigerator: false,
-      freezer: false,
-      trash_compator: false,
-      garbage_disposal: false,
-      washer: false,
-      micro_wave: false,
+      dishwasher: property.appliances.dishwasher,
+      oven: property.appliances.oven,
+      dry: property.appliances.dry,
+      refrigerator: property.appliances.refrigerator,
+      freezer: property.appliances.freezer,
+      trash_compator: property.appliances.trash_compator,
+      garbage_disposal: property.appliances.garbage_disposal,
+      washer: property.appliances.washer,
+      micro_wave: property.appliances.micro_wave,
     },
     basement: {
-      finished: false,
-      unfinished: false,
-      partially_finished: false,
+      finished: property.basement.finished,
+      unfinished: property.basement.unfinished,
+      partially_finished: property.basement.partially_finished,
     },
     floor_covering: {
-      carpet: false,
-      slate: false,
-      concrete: false,
-      softwood: false,
-      hardwood: false,
-      tile: false,
-      laminate: false,
-      other_floor_covering: false,
-      linoleum: false,
+      carpet: property.floor_covering.carpet,
+      slate: property.floor_covering.slate,
+      concrete: property.floor_covering.concrete,
+      softwood: property.floor_covering.softwood,
+      hardwood: property.floor_covering.hardwood,
+      tile: property.floor_covering.tile,
+      laminate: property.floor_covering.laminate,
+      other_floor_covering: property.floor_covering.other_floor_covering,
+      linoleum: property.floor_covering.linoleum,
     },
     rooms: {
-      breakfast_nook: false,
-      office: false,
-      dining_room: false,
-      pantry: false,
-      family_room: false,
-      recreation_room: false,
-      laundry_room: false,
-      workshop: false,
-      library: false,
-      master_room: false,
-      total_rooms: '',
+      breakfast_nook: property.rooms.breakfast_nook,
+      office: property.rooms.office,
+      dining_room: property.rooms.dining_room,
+      pantry: property.rooms.pantry,
+      family_room: property.rooms.family_room,
+      recreation_room: property.rooms.recreation_room,
+      laundry_room: property.rooms.laundry_room,
+      workshop: property.rooms.workshop,
+      library: property.rooms.library,
+      master_room: property.rooms.master_room,
+      total_rooms: property.rooms.total_rooms,
     },
     indoor_features: {
-      security_system: false,
-      cable: false,
-      ceiling_fans: false,
-      fire_place: false,
-      wired: false,
+      security_system: property.indoor_features.security_system,
+      cable: property.indoor_features.cable,
+      ceiling_fans: property.indoor_features.ceiling_fans,
+      fire_place: property.indoor_features.fire_place,
+      wired: property.indoor_features.wired,
     },
     accounts: {
-      down_payment: '',
-      loan_years: '',
-      interest_rate: '',
-      tax_rate: '',
+      down_payment: property.accounts.down_payment,
+      loan_years: property.accounts.loan_years,
+      interest_rate: property.accounts.interest_rate,
+      tax_rate: property.accounts.tax_rate,
     },
     building_amenities: {
-      gated_entry: false,
-      near_transportation: false,
-      controlled_access: false,
-      storage: false,
-      elevator: false,
+      gated_entry: property.building_amenities.gated_entry,
+      near_transportation: property.building_amenities.near_transportation,
+      controlled_access: property.building_amenities.controlled_access,
+      storage: property.building_amenities.storage,
+      elevator: property.building_amenities.elevator,
     },
     architectural_style: {
-      bungalow: false,
-      modern: false,
-      villa: false,
-      loft: false,
+      bungalow: property.architectural_style.bungalow,
+      modern: property.architectural_style.modern,
+      villa: property.architectural_style.villa,
+      loft: property.architectural_style.loft,
     },
     exterior: {
-      brick: false,
-      stucco: false,
-      cement: false,
-      vinyl: false,
-      wood: false,
-      metal: false,
-      stone: false,
-      other_exterior: false,
+      brick: property.exterior.brick,
+      stucco: property.exterior.stucco,
+      cement: property.exterior.cement,
+      vinyl: property.exterior.vinyl,
+      wood: property.exterior.wood,
+      metal: property.exterior.metal,
+      stone: property.exterior.stone,
+      other_exterior: property.exterior.other_exterior,
     },
     outdoor_amenities: {
-      balcony: false,
-      barbecue_area: false,
-      pond: false,
-      pool: false,
-      porch: false,
-      rv_parking: false,
-      water_front: false,
-      spa: false,
-      sprinkler_system: false,
+      balcony: property.outdoor_amenities.balcony,
+      barbecue_area: property.outdoor_amenities.barbecue_area,
+      pond: property.outdoor_amenities.pond,
+      pool: property.outdoor_amenities.pool,
+      porch: property.outdoor_amenities.porch,
+      rv_parking: property.outdoor_amenities.rv_parking,
+      water_front: property.outdoor_amenities.water_front,
+      spa: property.outdoor_amenities.spa,
+      sprinkler_system: property.outdoor_amenities.sprinkler_system,
     },
     parking: {
-      carport: false,
-      off_street: false,
-      garage_attached: false,
-      on_street: false,
-      garage_detached: false,
-      parking_spaces: '',
+      carport: property.parking.carport,
+      off_street: property.parking.off_street,
+      garage_attached: property.parking.garage_attached,
+      on_street: property.parking.on_street,
+      garage_detached: property.parking.garage_detached,
+      parking_spaces: property.parking.parking_spaces,
     },
     roof: {
-      asphalt: false,
-      concrete: false,
-      build_up: false,
-      slate: false,
-      composition: false,
-      tile: false,
-      metal: false,
+      asphalt: property.roof.asphalt,
+      concrete: property.roof.concrete,
+      build_up: property.roof.build_up,
+      slate: property.roof.slate,
+      composition: property.roof.composition,
+      tile: property.roof.tile,
+      metal: property.roof.metal,
     },
     view: {
-      city: false,
-      territorial: false,
-      mountain: false,
-      water: false,
-      park: false,
+      city: property.view.city,
+      territorial: property.view.territorial,
+      mountain: property.view.mountain,
+      water: property.view.water,
+      park: property.view.park,
     },
   });
   
@@ -465,7 +267,7 @@ const UserPostHouseDetails = () => {
   };
 
   return (
-    <Form encType='multipart/form-data' noValidate validated={validated} onSubmit={handleSubmit}>
+    <Form className='p-5 bg-zinc-500' encType='multipart/form-data' noValidate validated={validated} onSubmit={handleSubmit}>
       <Row className="mb-3">
       <Form.Group as={Col} md="4" className='pb-3' controlId="validationCustom01">
           <Form.Label>Property Name</Form.Label>
@@ -501,6 +303,28 @@ const UserPostHouseDetails = () => {
             onChange={handleInputChange}
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group as={Col} md="4" className='pb-3' controlId="validationCustom03">
+            <Form.Label>Transaction Type</Form.Label>
+            <fieldset className='d-flex justify-around'>
+                <legend className="sr-only">Transaction Type</legend>
+
+                {['sell', 'rent', 'lease'].map((type) => (
+                    <div key={type} className="flex items-center mb-4" onClick={() => setFormData({ ...formData, transaction_type: type })}>
+                        <input
+                            id={`country-option-${type}`}
+                            type="radio"
+                            name="transactionType"
+                            value={type}
+                            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                            checked={formData.transaction_type === type}
+                        />
+                        <label htmlFor={`country-option-${type}`} className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            {type.charAt(0).toUpperCase() + type.slice(1)}
+                        </label>
+                    </div>
+                ))}
+            </fieldset>
         </Form.Group>
       </Row>
       <Row className='mb-3 flex justify-around'>
@@ -557,14 +381,14 @@ const UserPostHouseDetails = () => {
       <Row className='mb-3 flex justify-around'>
         <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
           <Form.Label>Year build</Form.Label>
-          <Form.Control type='date' required name='year_build' value={formData.year_build} onChange={handleInputChange} max={formattedDate} />
+          <Form.Control type='date' required name='year_build' value={formData.year_build} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid data.
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
           <Form.Label>Structural remodal</Form.Label>
-          <Form.Control type='date' required name='remodal_year' value={formData.remodal_year} onChange={handleInputChange} max={formattedDate} />
+          <Form.Control type='date' required name='remodal_year' value={formData.remodal_year} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid data.
           </Form.Control.Feedback>
@@ -574,7 +398,7 @@ const UserPostHouseDetails = () => {
         <h4 className='text-lg font-semibold pb-3'>Open House</h4>
         <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
           <Form.Label>Date</Form.Label>
-          <Form.Control type='date' name='open_house.date' value={formData.open_house.date} onChange={handleInputChange} min={formattedDate} />
+          <Form.Control type='date' name='open_house.date' value={formData.open_house.date} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid date.
           </Form.Control.Feedback>
@@ -1034,7 +858,7 @@ const UserPostHouseDetails = () => {
       <Form.Group className="mb-3 flex justify-center">
         <Form.Check
           required
-          label="The provided information is correct and potential buyers will contact you through the rykerz message service or  email address you use to register on Here. You must also add your phone number to the listing here."
+          label="The provided information is correct and potential buyers will contact you through the rykerz message service or  email address you use to register on here. You must also add your phone number to the listing here."
           feedback="You must agree before submitting."
           feedbackType="invalid"
         />
@@ -1065,4 +889,4 @@ const UserPostHouseDetails = () => {
   );
 }
 
-export default UserPostHouseDetails
+export default UserEditHouseDetails

@@ -1,17 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = null;
+const initialState = {
+    showPropertiesList: [],
+};
 
 export const propertiesListSlice = createSlice({
     name: 'showPropertiesList',
     initialState,
     reducers: {
         addPropertiesList: (state, action) => {
-            return {
-                ...state,
-                ...action.payload,
-                properties: action.payload.propertiesList,
-            };
+            state.showPropertiesList = action.payload.showPropertiesList;
         },
     }
 });

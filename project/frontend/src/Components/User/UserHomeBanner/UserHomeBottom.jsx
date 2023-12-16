@@ -1,7 +1,6 @@
-import React from 'react'
-import Container from 'react-bootstrap/Container';
-import '../../../App.css';
-import '../../../index.css';
+import React from 'react';
+// import '../../../App.css';
+// import '../../../index.css';
 import './UserHomeBanner.css';
 import buy from '../../../images/type-1.webp';
 import rent from '../../../images/type-2.webp';

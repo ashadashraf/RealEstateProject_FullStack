@@ -14,6 +14,7 @@ import UserGoogleSignout from './Pages/UserSide/UserGoogleSignout';
 // import UserSideAddPropertyDocuments from './Pages/UserSide/UserSideAddPropertyDocuments';
 import UserSideListProperties from './Pages/UserSide/UserSideListProperties';
 import UserSidePropertyDetail from './Pages/UserSide/UserSidePropertyDetail';
+// import UserSideEditProperty from './Pages/UserSide/UserSideEditProperty';
 // import UserSideManageMyProperty from './Pages/UserSide/UserSideManageMyProperty';
 // import VideoChat from './Pages/UserSide/VideoChat';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +29,7 @@ const UserSideAddPropertyDocuments = lazy(() => import('./Pages/UserSide/UserSid
 // const UserSidePropertyDetail = lazy(() => import('./Pages/UserSide/UserSidePropertyDetail'));
 const UserSideManageMyProperty = lazy(() => import('./Pages/UserSide/UserSideManageMyProperty'));
 const VideoChat = lazy(() => import('./Pages/UserSide/VideoChat'));
+const UserSideEditProperty = lazy(() => import('./Pages/UserSide/UserSideEditProperty'));
 
 const App = () => {
   const loader = (
@@ -67,6 +69,9 @@ const App = () => {
             </Route>
             <Route path='/room/:roomID'>
               <VideoChat />
+            </Route>
+            <Route path='/editproperty/:propertyId'>
+              <UserSideEditProperty />
             </Route>
             {/* <Route path='/usersignup'>
               <UserSideSignup />

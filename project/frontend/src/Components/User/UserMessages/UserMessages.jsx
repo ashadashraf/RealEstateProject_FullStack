@@ -287,8 +287,8 @@ class Chat extends Component {
 
     return (
       <React.Fragment>
-        {/* {this.state.allClients && this.state.allClients !== "No registered user" 
-        ? */}
+        {this.state.allClients && this.state.allClients !== "No registered user" 
+        ?
         <Row>
           <Col md={4} style={{height: '100%'}}>
             <form onSubmit={(event) => this.handleSearchSubmit(event)}>
@@ -305,8 +305,7 @@ class Chat extends Component {
               </div>
             </form>
             <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
-            {/* {this.state.subAllClients && this.state.subAllClients.map((client, index) => ( */}
-            {this.state.subAllClients.map((client, index) => (
+            {this.state.subAllClients && this.state.subAllClients.map((client, index) => (
               <li key={index} className="py-3 sm:py-4 mt-2 client-message-list" onClick={() => this.handleIndividualChat(client)}>
                 <div className="flex items-center space-x-4 rtl:space-x-reverse p-2">
                   <div className="flex-shrink-0">
@@ -314,14 +313,14 @@ class Chat extends Component {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm d-flex justify-start font-medium overflow-hidden whitespace-nowrap text-overflow-ellipsis" style={{textTransform: 'capitalize'}}>
-                      <b>{client.author__username}</b>
+                      <b>{client?.author__username}</b>
                     </p>
                     <p className="text-md d-flex justify-start overflow-hidden whitespace-nowrap text-overflow-ellipsis">
-                      Property: {client.property__property_name}
+                      Property: {client?.property__property_name}
                     </p>
                   </div>
                   <div className="inline-flex items-center">
-                    <img className="w-8 h-8" src={client.property_image} alt="Property Image" />
+                    <img className="w-8 h-8" src={client?.property_image} alt="Property Image" />
                   </div>
                 </div>
               </li>
@@ -436,14 +435,14 @@ class Chat extends Component {
                             <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Request for Private home tour</h5>
                             <div className='flex justify-between'>
                               <p className={`mb-3 font-normal text-gray-700 dark:text-white ${
-                                this.state.selectedClientData[0].property__property_name.length > 6 ? 'truncate' : ''
+                                this.state.selectedClientData[0]?.property__property_name.length > 6 ? 'truncate' : ''
                               }`}>
-                                Property: {this.state.selectedClientData[0].property__property_name}
+                                Property: {this.state.selectedClientData[0]?.property__property_name}
                               </p>
                               <p class="mb-3 font-normal text-gray-700 dark:text-green-500">Issued: {RegExp.$1}</p>
                             </div>
                             <div className='flex justify-between'>
-                              <p class="mb-3 font-normal text-gray-700 dark:text-white">{this.state.selectedClientData[0].author__username} - {this.props.username}</p>
+                              <p class="mb-3 font-normal text-gray-700 dark:text-white">{this.state.selectedClientData[0]?.author__username} - {this.props.username}</p>
                               <p class="mb-3 font-normal text-gray-700 dark:text-red-500">Expire: {RegExp.$3}</p>
                             </div>
                             {!this.isMessageExpired(message.content) && (
@@ -536,8 +535,8 @@ class Chat extends Component {
             </div>
           </Col>
         </Row>
-        {/* : <UserSideLogin />
-        } */}
+        : <UserSideLogin />
+        }
       </React.Fragment>
     );
   }

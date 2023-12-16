@@ -287,8 +287,8 @@ class Chat extends Component {
 
     return (
       <React.Fragment>
-        {this.state.allClients && this.state.allClients !== "No registered user" 
-        ?
+        {/* {this.state.allClients && this.state.allClients !== "No registered user" 
+        ? */}
         <Row>
           <Col md={4} style={{height: '100%'}}>
             <form onSubmit={(event) => this.handleSearchSubmit(event)}>
@@ -305,7 +305,8 @@ class Chat extends Component {
               </div>
             </form>
             <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
-            {this.state.subAllClients && this.state.subAllClients.map((client, index) => (
+            {/* {this.state.subAllClients && this.state.subAllClients.map((client, index) => ( */}
+            {this.state.subAllClients.map((client, index) => (
               <li key={index} className="py-3 sm:py-4 mt-2 client-message-list" onClick={() => this.handleIndividualChat(client)}>
                 <div className="flex items-center space-x-4 rtl:space-x-reverse p-2">
                   <div className="flex-shrink-0">
@@ -535,8 +536,8 @@ class Chat extends Component {
             </div>
           </Col>
         </Row>
-        : <UserSideLogin />
-        }
+        {/* : <UserSideLogin />
+        } */}
       </React.Fragment>
     );
   }

@@ -8,9 +8,11 @@ import UserFooter from '../../Components/User/UserFooter/UserFooter'
 function UserSideHome() {
   return (
     <React.Fragment>
-      <UserHeader />
-      <UserHomeBanner />
-      <UserFooter />
+      <div style={{width: '100%'}}>
+        <UserHeader />
+        <UserHomeBanner />
+        <UserFooter />
+      </div>
     </React.Fragment>
   )
 }

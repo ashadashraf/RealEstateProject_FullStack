@@ -132,7 +132,7 @@ function UserHeader() {
                 <>
                   {/* <Link to="#" className='text-white columns-1 mt-2' onClick={() => handleModal('signup')}>SIGN UP</Link> */}
                   {showSignupModal && <UserSideSignup />}
-                  <Link to="#" className='text-white columns-1 mt-2' onClick={() => handleModal('signin')}>LOG IN</Link>
+                  <Link style={{ textDecoration: 'none', color: 'white' }} to="#" className='text-white columns-1 mt-2' onClick={() => handleModal('signin')}>LOG IN</Link>
                   {showSigninModal && <UserSideLogin />}
                 </>
               )}

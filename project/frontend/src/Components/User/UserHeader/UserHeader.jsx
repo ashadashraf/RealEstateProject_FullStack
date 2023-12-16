@@ -116,17 +116,17 @@ function UserHeader() {
               <Nav.Link href="#features" className='text-white columns-1'>BUY</Nav.Link>
               {userId 
               ?
-              <Link to="/sellproperty" className='text-white columns-1 mt-2'>SELL</Link>
+              <Link style={{ textDecoration: 'none', color: 'white' }} to="/sellproperty" className='text-white columns-1 mt-2'>SELL</Link>
               :
-              <Link to="#" className='text-white columns-1 mt-2' onClick={() => handleModal('signin')}>SELL</Link>
+              <Link style={{ textDecoration: 'none', color: 'white' }} to="#" className='text-white columns-1 mt-2' onClick={() => handleModal('signin')}>SELL</Link>
               }
-              <Link to="/" style={{letterSpacing: '12px', fontFamily: 'Koulen', fontSize: '20px', paddingBottom: '0rem', paddingTop: '0.2rem'}} className='text-white mx-4'>RYKERZ REAL ESTATES</Link>
+              <Link to="/" style={{textDecoration: 'none', color: 'white', letterSpacing: '12px', fontFamily: 'Koulen', fontSize: '20px', paddingBottom: '0rem', paddingTop: '0.2rem'}} className='text-white mx-4'>RYKERZ REAL ESTATES</Link>
               {/* <Navbar.Brand href="/" style={{letterSpacing: '12px', fontFamily: 'Koulen', fontSize: '20px', paddingBottom: '0rem', paddingTop: '0.2rem'}} className='text-white mx-4'>RYKERZ REAL ESTATES</Navbar.Brand> */}
               {showIsLoggedin ? (
                 showIsGoogleLoggedin ? (
                   <UserGoogleSignout />
                 ): (
-                  <Link to="#" className='text-white columns-1 mt-2' onClick={handleLogout}>LOGOUT</Link>
+                  <Link style={{ textDecoration: 'none', color: 'white' }} to="#" className='text-white columns-1 mt-2' onClick={handleLogout}>LOGOUT</Link>
                 )
               ): (
                 <>

@@ -1,49 +1,49 @@
 .price-text {
-    padding-left: 7vw;
+    padding-left: 7vw !important;
 }
 
 .transaction-type {
-    font-size: small;
-    padding-left: 5vw;
-    padding-top: 1vw;
-    padding-bottom: 0.5vw;
+    font-size: small !important;
+    padding-left: 5vw !important;
+    padding-top: 1vw !important;
+    padding-bottom: 0.5vw !important;
 }
 
 .address-text {
-    font-size: small;
-    padding-left: 7vw;
-    padding-top: 0.3vw;
+    font-size: small !important;
+    padding-left: 7vw !important;
+    padding-top: 0.3vw !important;
 }
 
 .detail-button {
-    color: black;
-    background-color: rgb(238, 235, 231);
+    color: black !important;
+    background-color: rgb(238, 235, 231) !important;
 }
 
 .detail-button:hover {
-    background-color: black;
+    background-color: black !important;
 }
 
 .container {
-    margin-left: 6vw;
+    margin-left: 6vw !important;
 }
 
 hr {
-    border: 1px solid;
-    color: white;
+    border: 1px solid !important;
+    color: white !important;
 }
 
 .sub-features-header {
-    font-size: medium;
+    font-size: medium !important;
 }
 
 .popover-container {
-    background-color: black;
-    border-color: blanchedalmond;
+    background-color: black !important;
+    border-color: blanchedalmond !important;
 }
 
 .popover-body {
-    color: white;
+    color: white !important;
 }
 
 .email-button:hover {

@@ -74,7 +74,7 @@ const UserDisplayPropertyBottom = () => {
                 </Form>
               </div>
               <div className="col">
-                <Image src={property.images[0].image} />
+                <Image src={property?.images[0]?.image} />
                 {/* <div className='d-flex justify-center align-middle p-2'>
                   <Button size='sm' variant="primary" className='text-whit bg-primary'>Message</Button>
                 </div> */}

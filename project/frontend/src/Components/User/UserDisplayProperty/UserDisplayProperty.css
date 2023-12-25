@@ -22,6 +22,7 @@
 
 .detail-button:hover {
     background-color: black !important;
+    color: aliceblue !important;
 }
 
 .container {

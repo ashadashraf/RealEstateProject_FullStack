@@ -20,7 +20,7 @@ const UserDisplayPropertyTop = () => {
                 <Col lg={7} className='pt-1'>
                     {/* <img src={property.images[1].image} className='d-block w-100 rounded-xl' style={{height: '30vw'}} alt="" /> */}
                 <Carousel fade>
-                    {property?.images[0] && property?.images.map(({image}, index) => (
+                    {property?.images.map(({image}, index) => (
                         <Carousel.Item key={index}>
                             <Image src={selectedImage ? selectedImage : image} className='d-block w-100 rounded-xl' style={{height: '30vw'}} alt={`Image ${index + 1}`} />
                         </Carousel.Item>

@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/Col';
 import Mapbox from '../Mapbox/Mapbox';
 
 const UserDisplayPropertyBottom = () => {
-  const property = useSelector(state => state.showPropertyDetail.showPropertyDetail[0])
+  const property = useSelector(state => state.showPropertyDetail.propertyDetail[0])
   const details = ['appliances', 'architectural_style', 'basement', 'building_amenities', 'exterior', 'floor_covering', 'indoor_features', 'outdoor_amenities', 'parking', 'roof', 'rooms', 'view']
 
   const renderDetail = (detail) => {

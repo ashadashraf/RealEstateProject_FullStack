@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/Image';
 import { useSelector } from 'react-redux';
 
 const UserDisplayPropertyTop = () => {
-    const property = useSelector(state => state.showPropertyDetail.showPropertyDetail[0])
+    const property = useSelector(state => state.showPropertyDetail.propertyDetail[0])
     const [selectedImage, setSelectedImage] = useState(null);
     useEffect(() => {
         const intervalId = setInterval(() => {

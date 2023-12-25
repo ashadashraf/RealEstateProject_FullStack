@@ -13,7 +13,6 @@ import Mapbox from '../Mapbox/Mapbox';
 
 const UserDisplayPropertyBottom = () => {
   const property = useSelector(state => state.showPropertyDetail.showPropertyDetail[0])
-  console.log(property)
   const details = ['appliances', 'architectural_style', 'basement', 'building_amenities', 'exterior', 'floor_covering', 'indoor_features', 'outdoor_amenities', 'parking', 'roof', 'rooms', 'view']
 
   const renderDetail = (detail) => {
@@ -54,7 +53,7 @@ const UserDisplayPropertyBottom = () => {
       content: (
         <Popover id="popover-basic" style={{maxWidth: '60vw'}} classNameName='popover-container'>
           <Popover.Header as="h3"><b>Open House</b></Popover.Header>
-          <Popover.Body className='popover-body'>
+          <Popover.Body className='popover-body bg-black'>
             <h2><b>Request a private showing</b></h2>
             <div className="row">
               <div className="col">
@@ -71,14 +70,14 @@ const UserDisplayPropertyBottom = () => {
                     <Form.Label>Phone Number</Form.Label>
                     <Form.Control size='sm' type="text" />
                   </Form.Group>
-                  <Button className='bg-black text-white' type='submit'>Email</Button>
+                  <Button className='email-button bg-black text-white' type='submit'>Email</Button>
                 </Form>
               </div>
               <div className="col">
                 <Image src={property.images[0].image} />
-                <div className='d-flex justify-center align-middle p-2'>
+                {/* <div className='d-flex justify-center align-middle p-2'>
                   <Button size='sm' variant="primary" className='text-whit bg-primary'>Message</Button>
-                </div>
+                </div> */}
               </div>
             </div>
           </Popover.Body>
@@ -209,9 +208,9 @@ const UserDisplayPropertyBottom = () => {
   };
 
   return (
-    <div className='box m-5'>
+    <div className='box ml-5 mr-5 mt-5 pb-2'>
       {tooltips.map(({ id, title, content }) => (
-        <div key={id} className="d-flex justify-start mt-2 mb-2">
+        <div key={id} className="d-flex justify-start mt-2 mb-0">
           <OverlayTrigger
             trigger="click"
             placement="right"

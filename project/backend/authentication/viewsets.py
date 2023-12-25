@@ -1,10 +1,4 @@
-import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
-
-import django
-django.setup()
-
-from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
+from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, GoogleLoginSerializer
 from authentication.models import User
 from rest_framework import viewsets, filters, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -60,6 +54,21 @@ class RegistrationViewSet(ModelViewSet, TokenObtainPairView):
 
 class LoginViewSet(ModelViewSet, TokenObtainPairView):
     serializer_class = LoginSerializer
+    permission_classes = (AllowAny,)
+    http_method_names = ['post']
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+        
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+    
+class GoogleLoginViewSet(ModelViewSet, TokenObtainPairView):
+    serializer_class = GoogleLoginSerializer
     permission_classes = (AllowAny,)
     http_method_names = ['post']
 

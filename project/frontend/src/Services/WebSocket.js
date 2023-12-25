@@ -24,7 +24,7 @@ class WebSocketService {
       console.log('WebSocket open');
     };
     this.socketRef.onmessage = e => {
-      console.log('onmessage', e.data)
+      // console.log('onmessage', e.data)
       this.socketNewMessage(e.data);
     };
 

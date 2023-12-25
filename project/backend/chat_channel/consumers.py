@@ -1,17 +1,9 @@
-import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
-
-import django
-django.setup()
-
-from asgiref.sync import async_to_sync, sync_to_async
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from authentication.models import User
 from .models import Message
 import asyncio
-from data.models import Property, Documents
 from django.db.models import Q
 
 
@@ -48,10 +40,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def get_message_details(self, user):
         from data.models import Property
+        from .models import Message
         user_properties = await database_sync_to_async(Property.objects.filter)(user_id=user)
         message_details = await database_sync_to_async(
             lambda: list(
-                Message.objects.filter(property__in=user_properties)
+                Message.objects.filter(Q(author=user) | Q(receiver=user))
                 .values('property__id', 'property__property_name', 'author__id', 'author__username')
                 .exclude(author=user)
                 .distinct()
@@ -88,6 +81,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def last_50_messages(self, author, receiver, property):
+        from .models import Message
         print('model', author, receiver, property)
         messages = Message.objects.filter(
             Q(author=author, receiver=receiver) | Q(author=receiver, receiver=author),
@@ -144,14 +138,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def create_message(self, author, receiver, text, property):
+        from .models import Message
         return Message.objects.create(author=author, receiver=receiver, content=text, property=property)
     
     @database_sync_to_async
     def get_property(self, property_id):
+        from data.models import Property
         return Property.objects.get(id=property_id)
     
     @database_sync_to_async
     def get_property_owner(self, property_id):
+        from data.models import Property
         property_instance = Property.objects.get(id=property_id)
         property_owner = User.objects.get(email=property_instance.user_id)
         return property_owner.id

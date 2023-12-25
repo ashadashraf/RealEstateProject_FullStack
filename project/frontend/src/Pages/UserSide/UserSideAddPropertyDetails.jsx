@@ -7,7 +7,8 @@ import { useSelector } from 'react-redux'
 import './UserPostPropertyDetails.css';
 import UserPostHouseDetails from '../../Components/User/UserPropertySell/UserPropertyTypes/UserPostHouseDetails';
 import { useHistory } from 'react-router-dom';
-import UserPostComplexDetails from '../../Components/User/UserPropertySell/UserPropertyTypes/UserPostComplexDetails'
+import UserPostComplexDetails from '../../Components/User/UserPropertySell/UserPropertyTypes/UserPostComplexDetails';
+import UserPostLandDetails from '../../Components/User/UserPropertySell/UserPropertyTypes/UserPostLandDetails';
 
 const UserSideAddPropertyDetails = () => {
     const transactionType = useSelector(state => state.showPropertyAddress.transactionType);
@@ -68,8 +69,10 @@ const UserSideAddPropertyDetails = () => {
                 </Nav.Item>
             </Nav>
             <div className='m-5'>
-                {showHouseProperty && <UserPostHouseDetails />}
+                {showHouseProperty && <UserPostHouseDetails propertyType='house' />}
                 {showComplexProperty && <UserPostComplexDetails />}
+                {showApartmentProperty && <UserPostHouseDetails propertyType='apartment' />}
+                {showLandProperty && <UserPostLandDetails />}
             </div>
             <UserFooter />
         </React.Fragment>

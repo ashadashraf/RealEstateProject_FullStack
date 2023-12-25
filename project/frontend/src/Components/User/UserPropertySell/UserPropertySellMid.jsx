@@ -10,11 +10,51 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAddress } from '../../../Redux/sellPropertyDetails/propertyAddressSlice';
+import { toast } from 'react-toastify';
 
 const UserPropertySellMid = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [validated, setValidated] = useState(false);
+    const showToastMessage = (message, type) => {
+        switch (type) {
+          case "error":
+            toast.error(message, {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+            break;
+          case "warning":
+            toast.warning(message, {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+            break;
+          default:
+            toast(message, {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+        }
+    };
     const transactionType = useSelector(state => state.showPropertyAddress.transactionType)
     const address = useSelector(state => state.showPropertyAddress.address)
     const unit = useSelector(state => state.showPropertyAddress.unit);
@@ -37,18 +77,20 @@ const UserPropertySellMid = () => {
         if (transactionType && address && unit && city && state && pincode) {
             setValidated(true);
             history.push('/markproperty')
+        } else if (!transactionType) {
+            showToastMessage("Please select Transaction type", "warning");
         }
     };
     
     return (
         <div className='user-property-sell-mid'>
             <h3 className='explore-head'>Explore your options</h3>
-            <div className="row p-3">
+            <div className="row p-3 w-100">
                 <div className="col" onClick={() => handleCardClick('Sale')} ><SellOptionsCard method={'SELL'} /></div>
                 <div className="col" onClick={() => handleCardClick('Rent')} ><SellOptionsCard method={'RENT'} /></div>
                 <div className="col" onClick={() => handleCardClick('Lease')} ><SellOptionsCard method={'LEASE'} /></div>
             </div>
-            <Form className='pt-5 pl-5 pr-5 pb-2' onSubmit={handleSubmit} style={{backgroundColor: '#D9D9D9', margin:'100px', borderRadius:'20px'}} noValidate validated={validated} >
+            <Form className='pt-5 pl-5 pr-5 pb-2' onSubmit={handleSubmit} style={{backgroundColor: '#D9D9D9', marginLeft:'100px', marginRight:'100px', marginTop:'100px', borderRadius:'20px'}} validated={validated} >
                 <Row>
                     <Form.Group as={Col} md="3" controlId="validationCustom01" className='m-1'>
                         <Form.Control

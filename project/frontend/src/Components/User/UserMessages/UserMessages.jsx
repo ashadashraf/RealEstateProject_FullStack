@@ -431,24 +431,24 @@ class Chat extends Component {
                         style={{borderRadius: '10px', maxWidth: '28vw'}}
                       >
                         {/^schedule (\d{1,2}\/\d{1,2}\/\d{4}, \d{1,2}:\d{2}:\d{2} (AM|PM)) expire (\d{1,2}\/\d{1,2}\/\d{4}, \d{1,2}:\d{2}:\d{2} (AM|PM))$/i.test(message.content) ? (
-                          <div class={`max-w-sm pl-6 pr-6 pt-3 pb-3 bg-gray-800 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ${this.isMessageExpired(message.content) ? 'cursor-not-allowed opacity-80' : ''}`}>
-                            <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Request for Private home tour</h5>
+                          <div className={`max-w-sm pl-6 pr-6 pt-3 pb-3 bg-gray-800 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ${this.isMessageExpired(message.content) ? 'cursor-not-allowed opacity-80' : ''}`}>
+                            <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Request for Private home tour</h5>
                             <div className='flex justify-between'>
                               <p className={`mb-3 font-normal text-gray-700 dark:text-white ${
                                 this.state.selectedClientData[0]?.property__property_name.length > 6 ? 'truncate' : ''
                               }`}>
                                 Property: {this.state.selectedClientData[0]?.property__property_name}
                               </p>
-                              <p class="mb-3 font-normal text-gray-700 dark:text-green-500">Issued: {RegExp.$1}</p>
+                              <p className="mb-3 font-normal text-gray-700 dark:text-green-500">Issued: {RegExp.$1}</p>
                             </div>
                             <div className='flex justify-between'>
-                              <p class="mb-3 font-normal text-gray-700 dark:text-white">{this.state.selectedClientData[0]?.author__username} - {this.props.username}</p>
-                              <p class="mb-3 font-normal text-gray-700 dark:text-red-500">Expire: {RegExp.$3}</p>
+                              <p className="mb-3 font-normal text-gray-700 dark:text-white">{this.state.selectedClientData[0]?.author__username} - {this.props.username}</p>
+                              <p className="mb-3 font-normal text-gray-700 dark:text-red-500">Expire: {RegExp.$3}</p>
                             </div>
                             {!this.isMessageExpired(message.content) && (
-                              <a onClick={() => this.updateHistory(message.id)} class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">
+                              <a onClick={() => this.updateHistory(message.id)} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">
                                 Connect
-                                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                                 </svg>
                               </a>
@@ -520,7 +520,7 @@ class Chat extends Component {
                   </div>
                   <div className="flex items-center justify-center">
                     <button onClick={this.sendMessageHandler} data-tooltip-target="tooltip-sent-message" type="button" className="inline-flex items-center justify-center w-10 h-10 font-medium bg-blue-900 rounded-full hover:bg-blue-950 group focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" className="bi bi-arrow-right" viewBox="0 0 16 16">
                       <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
                     </svg>
                       <span className="sr-only">Sent Message</span>

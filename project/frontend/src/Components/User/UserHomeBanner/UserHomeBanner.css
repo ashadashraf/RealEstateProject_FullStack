@@ -6,48 +6,48 @@
 @layer components {
     @media (min-width: 1200px) {
         .image-container {
-            box-sizing: border-box;
-            position: absolute;
-            height: 300px;
-            width: 100%;
-            margin: 0px;
-            padding: 0px;
-            left: 0px;
-            border: 1px solid #000000;
-            filter: blur(2.5px);
-            display: flex;
+            box-sizing: border-box !important;
+            position: absolute !important;
+            height: 300px !important;
+            width: 100% !important;
+            margin: 0px !important;
+            padding: 0px !important;
+            left: 0px !important;
+            border: 1px solid #000000 !important;
+            filter: blur(2.5px) !important;
+            display: flex !important;
         }
         .map-container {
-            position: relative;
-            height: 300px;
-            width: 41.5rem;
-            margin-left: 0px;
-            padding: 0px;
+            position: relative !important;
+            height: 300px !important;
+            width: 41.5rem !important;
+            margin-left: 0px !important;
+            padding: 0px !important;
         }
         .map {
-            height: 100%;
-            width: 100%;
+            height: 100% !important;
+            width: 100% !important;
         }
         .marker {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: rgba(255, 0, 0, 0.5); /* Adjust the background color as needed */
-            margin-left: 90%;
-            color: white;
-            border-radius: 4px;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            background-color: rgba(255, 0, 0, 0.5) !important; /* Adjust the background color as needed */
+            margin-left: 90% !important;
+            color: white !important;
+            border-radius: 4px !important;
         }
         .sidebar {
-            background-color: rgba(35, 55, 75, 0.9);
-            color: #fff;
-            padding: 6px 12px;
-            font-family: monospace;
-            z-index: 1;
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 12px;
-            border-radius: 4px;
+            background-color: rgba(35, 55, 75, 0.9) !important;
+            color: #fff !important;
+            padding: 6px 12px !important;
+            font-family: monospace !important;
+            z-index: 1 !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            margin: 12px !important;
+            border-radius: 4px !important;
           }
           
     }
@@ -55,102 +55,102 @@
       /* Media query for lg screens */
     @media (min-width: 992px) and (max-width: 1199px) {
         .image-container {
-            box-sizing: border-box;
-            position: absolute;
-            height: 250px;
-            width: 100%;
-            margin: 0px;
-            padding: 0px;
-            left: 0px;
-            border: 1px solid #000000;
-            filter: blur(2.5px);
-            display: flex;
+            box-sizing: border-box !important;
+            position: absolute !important;
+            height: 250px !important;
+            width: 100% !important;
+            margin: 0px !important;
+            padding: 0px !important;
+            left: 0px !important;
+            border: 1px solid #000000 !important;
+            filter: blur(2.5px) !important;
+            display: flex !important;
         }
         .map-container {
-            height: 250px;
-            width: 34.8rem;
-            margin-left: 20px;
+            height: 250px !important;
+            width: 34.8rem !important;
+            margin-left: 20px !important;
         }
         .sidebar {
-            background-color: rgba(35, 55, 75, 0.9);
-            color: #fff;
-            padding: 6px 12px;
-            font-family: monospace;
-            font-size: medium;
-            z-index: 1;
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 12px;
-            border-radius: 4px;
+            background-color: rgba(35, 55, 75, 0.9) !important;
+            color: #fff !important;
+            padding: 6px 12px !important;
+            font-family: monospace !important;
+            font-size: medium !important;
+            z-index: 1 !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            margin: 12px !important;
+            border-radius: 4px !important;
           }
           
     }
 
     @media (min-width: 764px) and (max-width: 991px) {
         .image-container {
-            box-sizing: border-box;
-            position: absolute;
-            height: 250px;
-            width: 100%;
-            margin: 0px;
-            padding: 0px;
-            left: 0px;
-            border: 1px solid #000000;
-            filter: blur(2.5px);
-            display: flex;
+            box-sizing: border-box !important;
+            position: absolute !important;
+            height: 250px !important;
+            width: 100% !important;
+            margin: 0px !important;
+            padding: 0px !important;
+            left: 0px !important;
+            border: 1px solid #000000 !important;
+            filter: blur(2.5px) !important;
+            display: flex !important;
         }
         .map-container {
-            height: 250px;
-            width: 29rem;
-            margin-left: 42px;
+            height: 250px !important;
+            width: 29rem !important;
+            margin-left: 42px !important;
         }
         .sidebar {
-            background-color: rgba(35, 55, 75, 0.9);
-            color: #fff;
-            padding: 6px 12px;
-            font-family: monospace;
-            font-size: small;
-            z-index: 1;
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 12px;
-            border-radius: 4px;
+            background-color: rgba(35, 55, 75, 0.9) !important;
+            color: #fff !important;
+            padding: 6px 12px !important;
+            font-family: monospace !important;
+            font-size: small !important;
+            z-index: 1 !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            margin: 12px !important;
+            border-radius: 4px !important;
           }          
     }
 
 
     @media (max-width: 763px) {
         .image-container {
-            box-sizing: border-box;
-            position: absolute;
-            height: 150px;
-            width: 100%;
-            margin: 0px;
-            padding: 0px;
-            left: 0px;
-            border: 1px solid #000000;
-            filter: blur(2.5px);
-            display: flex;
+            box-sizing: border-box !important;
+            position: absolute !important;
+            height: 150px !important;
+            width: 100% !important;
+            margin: 0px !important;
+            padding: 0px !important;
+            left: 0px !important;
+            border: 1px solid #000000 !important;
+            filter: blur(2.5px) !important;
+            display: flex !important;
         }
         .map-container {
-            height: 150px;
-            width: 15.2rem;
-            margin-left: -0.2rem;
+            height: 150px !important;
+            width: 15.2rem !important;
+            margin-left: -0.2rem !important;
         }
         .sidebar {
-            background-color: rgba(35, 55, 75, 0.9);
-            color: #fff;
-            padding: 0px 1px;
-            font-family: monospace;
-            font-size: smaller;
-            z-index: 1;
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 3px;
-            border-radius: 4px;
+            background-color: rgba(35, 55, 75, 0.9) !important;
+            color: #fff !important;
+            padding: 0px 1px !important;
+            font-family: monospace !important;
+            font-size: smaller !important;
+            z-index: 1 !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            margin: 3px !important;
+            border-radius: 4px !important;
           }          
     }
 
@@ -161,51 +161,51 @@
 @layer components {
     @media (min-width: 1200px) {
         .browse-container{
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
+            display: flex !important;
+            justify-content: space-around !important;
+            align-items: center !important;
         }
         .browse-img {
-            height: 150px;
-            width: 250px;
+            height: 150px !important;
+            width: 250px !important;
         } 
     }
     
     @media (min-width: 992px) and (max-width: 1199px) {
         .browse-container{
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
+            display: flex !important;
+            justify-content: space-around !important;
+            align-items: center !important;
         }
         .browse-img {
-            height: 150px;
-            width: 250px;
+            height: 150px !important;
+            width: 250px !important;
         } 
     }
 
     @media(max-width: 767px) and (min-width: 559px) {
       .browse-text {
-        font-size: .8rem;
+        font-size: .8rem !important;
       }
     }
 
     @media (max-width: 599px) {
         .browse-image-container {
-            width: 50%;
-            margin-bottom: 15px;
+            width: 50% !important;
+            margin-bottom: 15px !important;
         }
         .browse-img {
-            width: 100%;
-            height: 115px;
+            width: 100% !important;
+            height: 115px !important;
         }
         .browse-text {
-          font-size: .8rem;
+          font-size: .8rem !important;
         }
     }
     
     @media (min-width: 768px) {
       .browse-text {
-        font-size: 1.5rem;
+        font-size: 1.5rem !important;
       }
     }
 
@@ -253,45 +253,45 @@
     } */
 
     .browse-img {
-        filter: blur(1px);
-        border: solid;
-        transition: transform 0.3s;
+        filter: blur(1px) !important;
+        border: solid !important;
+        transition: transform 0.3s !important;
     }
 
     .browse-image-container {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        cursor: pointer;
-        overflow: hidden;
-        transition: transform 0.3s;
+        position: relative !important;
+        display: flex !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        overflow: hidden !important;
+        transition: transform 0.3s !important;
     }
 
     .browse-image-container:hover {
-        transform: scale(1.1);
+        transform: scale(1.1) !important;
     }
 
     .browse-image-container:hover .browse-img {
-        transform: scale(0.8);
+        transform: scale(0.8) !important;
     }
 
     .text-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
         /* background-color: rgba(0, 0, 0, 0.5);  */
-        color: white;
-        transform: scale(0.8);
-        transition: transform 0.3s;
+        color: white !important;
+        transform: scale(0.8) !important;
+        transition: transform 0.3s !important;
     }
 
     .browse-image-container:hover .text-overlay {
-        transform: scale(0.9);
+        transform: scale(0.9) !important;
     }
 
 }
@@ -300,128 +300,128 @@
 @layer components {
     @media (min-width: 1225px) {
         .bottom-container {
-            background-color: #080231;
-            width: 100%;
-            height: 200px;
-            padding: 0px;
-            margin: 0;
-            display: flex;
-            justify-content: center;
+            background-color: #080231 !important;
+            width: 100% !important;
+            height: 200px !important;
+            padding: 0px !important;
+            margin: 0 !important;
+            display: flex !important;
+            justify-content: center !important;
         }
         .bottom-image-container {
             /* position: relative;
             display: flex;
             justify-content: center; */
-            cursor: pointer;
-            height: 150px;
-            width: 250px;
-            margin: 25px;
+            cursor: pointer !important;
+            height: 150px !important;
+            width: 250px !important;
+            margin: 25px !important;
         }
         .bottom-img {
-            border-top-right-radius: 50px;
-            border-top-left-radius: 50px;
-            width: 250px;
-            height: 100px;
+            border-top-right-radius: 50px !important;
+            border-top-left-radius: 50px !important;
+            width: 250px !important;
+            height: 100px !important;
         }
         .bottom-text {
-            font-size: 1.3rem;
+            font-size: 1.3rem !important;
         }
     }
 
     .bottom-container {
-        background-color: #080231;
-        width: 100%;
-        padding: 0px;
-        margin: 0;
-        display: flex;
-        justify-content: center;
+        background-color: #080231 !important;
+        width: 100% !important;
+        padding: 0px !important;
+        margin: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
     }
     .bottom-image-container {
-        margin-top: 25px;
+        margin-top: 25px !important;
     }
     @media (min-width: 991px) and (max-width: 1225px) {   
         .bottom-container {
-            justify-content: space-evenly;
-            padding-bottom: 20px;
-            padding-top: 20px;
+            justify-content: space-evenly !important;
+            padding-bottom: 20px !important;
+            padding-top: 20px !important;
         }
         .bottom-image-container {
-            cursor: pointer;
-            height: 100%;
-            width: 200px;
-            margin: 15px;
+            cursor: pointer !important;
+            height: 100% !important;
+            width: 200px !important;
+            margin: 15px !important;
         }
         .bottom-img {
-            border-top-right-radius: 30px;
-            border-top-left-radius: 30px;
-            width: 250px;
-            height: 80px;
+            border-top-right-radius: 30px !important;
+            border-top-left-radius: 30px !important;
+            width: 250px !important;
+            height: 80px !important;
         }
         .bottom-text {
-            font-size: 1.0rem;
+            font-size: 1.0rem !important;
         }
     }
 
     @media (max-width: 599px) {
         .bottom-container {
-            padding-bottom: 15px;
+            padding-bottom: 15px !important;
         }
         .bottom-image-container {
-            cursor: pointer;
-            height: 100%;
-            width: 40%;
-            margin-left: 10px;
-            margin-right: 10px;
-            margin-top: 15px;
+            cursor: pointer !important;
+            height: 100% !important;
+            width: 40% !important;
+            margin-left: 10px !important;
+            margin-right: 10px !important;
+            margin-top: 15px !important;
         }
         .bottom-img {
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-            width: 100%;
-            height: 60px;
+            border-top-right-radius: 10px !important;
+            border-top-left-radius: 10px !important;
+            width: 100% !important;
+            height: 60px !important;
         }
         .bottom-text {
-            font-size: 0.7rem;
+            font-size: 0.7rem !important;
         }
     }
     
     @media (min-width: 825px) and (max-width: 991px) {
         .bottom-image-container {
-            cursor: pointer;
-            height: 150px;
-            width: 180px;
-            margin-left: 10px;
-            margin-right: 10px;
-            margin-top: 30px;
+            cursor: pointer !important;
+            height: 150px !important;
+            width: 180px !important;
+            margin-left: 10px !important;
+            margin-right: 10px !important;
+            margin-top: 30px !important;
         }
         .bottom-img {
-            border-top-right-radius: 20px;
-            border-top-left-radius: 20px;
-            width: 100%;
-            height: 80px;
+            border-top-right-radius: 20px !important;
+            border-top-left-radius: 20px !important;
+            width: 100% !important;
+            height: 80px !important;
         }
         .bottom-text {
-            font-size: 0.8rem;
+            font-size: 0.8rem !important;
         }
     }
 
     @media (min-width: 600px) and (max-width: 826px) {
         .bottom-container {
-            padding-bottom: 20px;
+            padding-bottom: 20px !important;
         }
         .bottom-image-container {
-            margin-top: 20px;
-            height: 100%;
-            width: 250px;
+            margin-top: 20px !important;
+            height: 100% !important;
+            width: 250px !important;
         }
         .bottom-img {
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-            width: 250px;
-            height: 60px;
+            border-top-right-radius: 10px !important;
+            border-top-left-radius: 10px !important;
+            width: 250px !important;
+            height: 60px !important;
         }
         .bottom-text {
-            font-size: 0.8rem;
+            font-size: 0.8rem !important;
         }
     }
 }

@@ -46,3 +46,7 @@ hr {
     color: white;
 }
 
+.email-button:hover {
+    background-color: rgb(179, 6, 6) !important;
+    color: black !important;
+}

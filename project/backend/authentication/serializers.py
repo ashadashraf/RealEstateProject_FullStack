@@ -1,9 +1,3 @@
-import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
-
-import django
-django.setup()
-
 from authentication.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -39,6 +33,25 @@ class LoginSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
 
+        refresh = self.get_token(self.user)
+
+        data['user'] = {
+            'user_id': self.user.id,
+            'username': self.user.username,
+        }
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+
+        if api_settings.UPDATE_LAST_LOGIN:
+            update_last_login(None, self.user)
+
+        return data
+    
+
+class GoogleLoginSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        print(data)
         refresh = self.get_token(self.user)
 
         data['user'] = {

@@ -2,7 +2,16 @@
     color: white !important;
 }
 
+.manage-text a:hover {
+    color: #080231 !important;
+}
+
 .main-bg {
     background-color: #080231;
+    font-size: small;
+}
+
+.main-bg:hover {
+    background-color: #060b57;
     font-size: small;
 }

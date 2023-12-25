@@ -1,21 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = null;
+const initialState = {
+    propertyDetail: [],
+};
 
 export const propertyDetailSlice = createSlice({
     name: 'showPropertyDetail',
     initialState,
     reducers: {
         addPropertyDetail: (state, action) => {
-            return {
-                ...state,
-                ...action.payload,
-                property: action.payload.propertyDetail,
-            };
+            state.propertyDetail = action.payload.propertyDetail;
+        },
+        updatePropertyLike: (state, action) => {
+            const updatedLike = action.payload.updatedLike;
+            state.propertyDetail[0].liked = updatedLike;
         },
     }
 });
 
-export const { addPropertyDetail } = propertyDetailSlice.actions;
+export const { addPropertyDetail, updatePropertyLike } = propertyDetailSlice.actions;
 
 export default propertyDetailSlice.reducer;

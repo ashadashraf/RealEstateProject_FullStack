@@ -5,7 +5,7 @@ import UserDisplayPropertyBottom from './UserDisplayPropertyBottom';
 const UserDisplayProperty = () => {
   return (
     <React.Fragment>
-      <div style={{backgroundColor: '#080231'}}>
+      <div className='m-0 p-0' style={{backgroundColor: '#080231'}}>
         <hr />
         <UserDisplayPropertyTop />
         <hr />

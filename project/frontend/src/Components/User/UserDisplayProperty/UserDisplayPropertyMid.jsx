@@ -3,7 +3,7 @@ import './UserDisplayProperty.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import bedLogo from '../../../images/bed-logo.png';
 import bathLogo from '../../../images/bath-logo.png';
@@ -15,18 +15,18 @@ import parkingLogo from '../../../images/parking-logo.png';
 import axios from 'axios';
 import UserMessages from '../UserMessages/UserMessages';
 import { constructApiUrl } from '../../../Services/ApiUtils';
+import { toast } from 'react-toastify';
+import { updatePropertyLike } from '../../../Redux/userProperty/propertyDetailSlice';
 
 const UserDisplayPropertyMid = () => {
-  const property = useSelector(state => state.showPropertyDetail.showPropertyDetail[0]);
+  const property = useSelector(state => state.showPropertyDetail.propertyDetail[0]);
   const [transactionTypeColor, setTransactionTypeColor] = useState('#FFFFFF');
   const currentDate = new Date();
   const postedOnDate = new Date(property.posted_on);
   const timeDifference = currentDate - postedOnDate;
   const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;
-  const [favourites, setFavourites] = useState(null);
-  const [isLiked, setIsLiked] = useState(null);
   const currentUser = useSelector(state => state.showIsLoggedin.userId);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (property.transaction_type === 'Sale') {
       setTransactionTypeColor('#099317');
@@ -35,29 +35,75 @@ const UserDisplayPropertyMid = () => {
     } else if (property.transaction_type === 'Lease') {
       setTransactionTypeColor('#BA8214');
     }
-    if (favourites && property.id) {
-      setIsLiked(!favourites.includes(property.id));
+  }, []);
+
+  const showToastMessage = (message, type) => {
+    switch (type) {
+        case "error":
+            toast.error(message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
+            break;
+        case "warning":
+            toast.warning(message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
+            break;
+        default:
+            toast(message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
     }
-  }, [favourites]);
+  };
 
   const handlePropertyLike = async () => {
     const token = localStorage.getItem('accessToken');
     try {
       const apiEndpoint = 'api/property/favourite/';
       const response = await axios.put(constructApiUrl(apiEndpoint),
-      {property_id: property.id},
+      {property_id: property.id,
+      user_id: currentUser},
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       if (response.status === 200) {
-        setFavourites(response.data.favourites);
-        console.log(favourites, 2);
+        console.log(response.data)
+        dispatch(updatePropertyLike({
+          updatedLike: response.data.is_favourite
+        }));
       }
       console.log(response.status);
       console.log(response.data);
     } catch(error) {
+      console.log(error)
+      if (error.response.data.detail === 'Given token not valid for any token type') {
+        showToastMessage('Please Login !', 'warning');
+      } else {
+        showToastMessage('Sorry some error occured !', 'error');
+      }
       console.log(error.response.data);
     }
   }
@@ -78,7 +124,7 @@ const UserDisplayPropertyMid = () => {
           <Col xl={4}>
             <Row className='pt-3'>
               <Col className='d-flex justify-end cursor-pointer' onClick={handlePropertyLike}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill={isLiked ? 'red' : 'white'} className="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill={property.liked ? 'red' : 'white'} className="bi bi-suit-heart-fill" viewBox="0 0 16 16">
                 <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
               </svg>
               </Col>
@@ -106,6 +152,7 @@ const UserDisplayPropertyMid = () => {
 
               </Col>
             </Row>
+            {property.related_website && 
             <Row className='pt-3 text-blue-200'>
               <Col className='d-flex justify-end'>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-globe" viewBox="0 0 16 16">
@@ -116,6 +163,7 @@ const UserDisplayPropertyMid = () => {
               <a href={`https://${property.related_website}`}>{property.related_website}</a>
               </Col>
             </Row>
+            }
           </Col>
         </Row>
         <Row className='p-2'>
@@ -197,7 +245,7 @@ const UserDisplayPropertyMid = () => {
             </Row>
           </Col>
           )}
-          {property.parking.parking_spaces && (
+          {property.parking.parking_spaces !== 0 && (
           <Col xl={3} xs={6} className='p-3'>
             <Row>
               <Col className='d-flex justify-end'>

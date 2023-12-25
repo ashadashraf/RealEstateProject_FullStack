@@ -11,9 +11,15 @@ export const propertiesListSlice = createSlice({
         addPropertiesList: (state, action) => {
             state.showPropertiesList = action.payload.showPropertiesList;
         },
-    }
+        updatePropertiesList: (state, action) => {
+            const updatedProperty = action.payload.updatedProperty;
+            state.showPropertiesList = state.showPropertiesList.map(property => 
+                property.id === updatedProperty.id ? updatedProperty : property
+            );
+        },
+    },
 });
 
-export const { addPropertiesList } = propertiesListSlice.actions;
+export const { addPropertiesList, updatePropertiesList } = propertiesListSlice.actions;
 
 export default propertiesListSlice.reducer;

@@ -21,11 +21,11 @@ const UserPropertyListing = () => {
 
     return (
         <React.Fragment>
-            <div className="row w-100">
-                <div className={`col-5 col-lg-4 p-1 ${isWideScreen ? 'wide-screen-map' : ''}`}>
+            <div className="row w-100 m-0 listing-background">
+                <div className={`col-5 col-lg-4 p-0 ${isWideScreen ? 'wide-screen-map' : ''}`}>
                     <Mapbox />
                 </div>
-                <div className="col-7 col-lg-8 pr-0 mr-0">
+                <div className="card-list col-7 col-lg-8 pr-4">
                     <UserPropertyCard />
                 </div>
             </div>

@@ -3,8 +3,48 @@ import { useDispatch, useSelector } from 'react-redux'
 import Mapbox from '../Mapbox/Mapbox';
 import { removePropertyElement, resetPropertyAddress } from '../../../Redux/sellPropertyDetails/propertyAddressSlice';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const UserMarkProperty = () => {
+  const showToastMessage = (message, type) => {
+    switch (type) {
+      case "error":
+        toast.error(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+      case "warning":
+        toast.warning(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+      default:
+        toast(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+    }
+  };
   const transactionType = useSelector(state => state.showPropertyAddress.transactionType);
   const address = useSelector(state => state.showPropertyAddress.address);
   const unit = useSelector(state => state.showPropertyAddress.unit);
@@ -23,7 +63,8 @@ const UserMarkProperty = () => {
       // dispatch(removePropertyElement('address'));
       history.push('/postpropertydetails');
     } else if (coordinates.lat === undefined || coordinates.lng === undefined) {
-      alert('mark the property location');
+      showToastMessage("Please mark property location", "warning");
+      // alert('mark the property location');
       // console.log('Data does not exist. Removing a specific property...');
       // dispatch(removePropertyElement('address'));
     } else {

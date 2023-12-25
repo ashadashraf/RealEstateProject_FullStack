@@ -22,6 +22,8 @@ import { gapi } from 'gapi-script';
 import { setShowIsLoggedin, setUserId, setUsername } from '../../Redux/authModal/isLoggedinSlice';
 import { GoogleClientId } from '../../Services/Keys';
 import { constructApiUrl } from '../../Services/ApiUtils';
+// import { SuccessNotification } from '../../assets/Notification';
+import { toast } from 'react-toastify';
 
 const clientId = GoogleClientId;
 
@@ -33,6 +35,58 @@ export default function UserSideLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const showToastMessage = (message, type) => {
+    switch (type) {
+      case "error":
+        toast.error(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+      case "warning":
+        toast.warning(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+      case "success":
+        toast.success(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+      default:
+        toast(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+    }
+  };
 
   const closeModalHandle = () => {
     dispatch(setShowSigninModal({
@@ -48,7 +102,7 @@ export default function UserSideLogin() {
     dispatch(setShowSignupModal({
       showSignupModal: true
     }))
-  }
+  };
 
   const handleSignin = async () => {
     setError('');
@@ -68,6 +122,7 @@ export default function UserSideLogin() {
         console.log(response);
         const data = await response.json();
         const accessToken = data.access;
+        // SuccessNotification('Login Success');
 
         localStorage.setItem('accessToken', accessToken);
         dispatch(setShowIsLoggedin({
@@ -79,16 +134,20 @@ export default function UserSideLogin() {
         dispatch(setUsername({
           username: data.user.username
         }))
+        showToastMessage("Login success", "success");
         closeModalHandle();
         // window.location.href = '/';
       } else {
+        console.log(response)
         setError('Login failed. Please check your credentials');
+        showToastMessage("Login failed. Please check your credentials", "warning");
       }
     } catch (error) {
       setError('An error occured while tring to login');
+      showToastMessage("Connection error, try again later", "error");
     }
     console.log('signin:', showSignupModal, showSigninModal);
-  }
+  };
 
   useEffect(() => {
     function start() {
@@ -127,7 +186,7 @@ export default function UserSideLogin() {
                     <MDBInput placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} wrapperClass="mb-4" size="sm" id="login-form2" type="password" />
                     {error && <div className='text-danger'>{error}</div>}
                     <button className='mb-4 h-7 rounded-md w-100 gradient-custom-4 bg-blue-200' onClick={handleSignin} size='sm'>Login</button>
-                    <UserGoogleSignin onClick={googleSignin} />
+                    {/* <UserGoogleSignin onClick={googleSignin} /> */}
                   </MDBCardBody>
                   <p className="text-white cursor-pointer" onClick={handleSignup}>Don't have an account? Sign up here.</p>
                 </MDBCard>

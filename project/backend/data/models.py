@@ -152,7 +152,7 @@ class Property(models.Model):
     garage_square_feet = models.CharField(null=True, blank=True)
     finished_square_feet = models.CharField(null=True, blank=True)
     description = models.CharField(null=False, blank=False)
-    more_description = models.CharField(null=False, blank=False)
+    more_description = models.CharField(null=False, blank=True)
     year_build = models.DateField(null=True, blank=True)
     remodal_year = models.DateField(null=True, blank=True)
     bedroom = models.IntegerField(null=True, blank=True)
@@ -176,6 +176,8 @@ class Property(models.Model):
     def __str__(self):
         return self.property_name
     
+    def is_liked_by_user(self, user):
+        return user.favourites.filter(id=self.id).exists()
 
 def upload_to(instance, filename):
     if (instance.is_image):

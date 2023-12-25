@@ -11,3 +11,14 @@ hr {
     border: 1px solid;
     color: white;
 }
+.glass-card {
+    background-color: rgba(255, 255, 255, 0.5); /* Set the background color with alpha for transparency */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Add a border with alpha for a subtle effect */
+    backdrop-filter: blur(10px); /* Apply a blur effect to create the glass effect */
+    transition: background-color 0.3s ease-in-out; /* Add a smooth transition for the background color */
+  }
+  
+  .glass-card:hover {
+    background-color: rgba(255, 255, 255, 0.7); /* Adjust the hover background color if needed */
+  }
+  

@@ -373,7 +373,7 @@ const UserPostComplexDetails = () => {
         <h4 className='text-lg font-semibold pb-3'>Open House</h4>
         <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
           <Form.Label>Date</Form.Label>
-          <Form.Control type='date' name='open_house.date' value={formData.open_house.date} onChange={handleInputChange} />
+          <Form.Control type='date' name='open_house.date' value={formData.open_house.date} onChange={handleInputChange} min={formattedDate} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid date.
           </Form.Control.Feedback>

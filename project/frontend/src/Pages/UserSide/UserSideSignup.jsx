@@ -129,7 +129,7 @@ export default function UserSideSignup() {
                         <MDBInput placeholder='confirm password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} wrapperClass='mb-4' size='sm' id='form5' type='password'/>
                         {/* <MDBBtn className='mb-4 w-100 gradient-custom-4' onClick={handleSignup} size='sm'>Register</MDBBtn> */}
                         <button className='mb-4 h-7 rounded-md w-100 gradient-custom-4 bg-blue-200' onClick={handleSignup} size='sm'>Register</button>
-                        <UserGoogleSignin onClick={googleSignin} />
+                        {/* <UserGoogleSignin onClick={googleSignin} /> */}
                         {/* <UserGoogleSignout onClick={googleSignout} /> */}
                         </MDBCardBody>
                         <p className='text-white cursor-pointer' onClick={handleSignin}>Already user?</p>

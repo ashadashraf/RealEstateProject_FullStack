@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -9,17 +9,71 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { constructApiUrl } from '../../../../Services/ApiUtils';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { updatePropertiesList } from '../../../../Redux/userProperty/propertiesListSlice';
 
 const UserEditHouseDetails = () => {
   const [validated, setValidated] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, '0');
   const day = String(currentDate.getDate()).padStart(2, '0');
 
   const formattedDate = `${year}-${month}-${day}`;
-  const property = useSelector(state => state.showPropertyDetail.showPropertyDetail);
+  const showToastMessage = (message, type) => {
+    switch (type) {
+      case "error":
+        toast.error(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+      case "warning":
+        toast.warning(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+        case "success":
+          toast.success(message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          break;
+      default:
+        toast(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+    }
+  };
+  const property = useSelector(state => state.showPropertyDetail.propertyDetail);
   console.log(property);
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -68,6 +122,8 @@ const UserEditHouseDetails = () => {
         console.log('PropertyUpdated');
         const data = await response.json();
         console.log(data)
+        showToastMessage("Property updated successfully.", "success");
+        dispatch(updatePropertiesList({ updatedProperty: data }));
         history.push('/usermyproperty');
       } else {
         console.log('Failed to update property');
@@ -75,6 +131,9 @@ const UserEditHouseDetails = () => {
         console.log('Error Details:', errorText);
         console.log('status', response.status);
         console.log(response);
+        if (response.statusText === "Unauthorized") {
+          showToastMessage("Failed to update property. You need to log in first", "error");
+        }      
         // console.log(formData);
       }
     } catch (error) {
@@ -97,7 +156,6 @@ const UserEditHouseDetails = () => {
   const roof = ['asphalt', 'concrete_roof', 'build_up', 'slate_roof', 'composition', 'tile_roof', 'metal_roof', 'other_roof'];
   const view = ['city', 'territorial', 'mountain', 'water', 'park', 'view_none'];
 
-  const dispatch = useDispatch();
   const userId = useSelector(state => state.showIsLoggedin.userId);
   const ownerId = userId;
   const [formData, setFormData] = useState({
@@ -264,16 +322,18 @@ const UserEditHouseDetails = () => {
     }
     
     setFormData(updatedFormData);
+    console.log(formData);
   };
 
   return (
-    <Form className='p-5 bg-zinc-500' encType='multipart/form-data' noValidate validated={validated} onSubmit={handleSubmit}>
+    <Form className='p-5 bg-zinc-500' encType='multipart/form-data' validated={validated} onSubmit={handleSubmit}>
       <Row className="mb-3">
-      <Form.Group as={Col} md="4" className='pb-3' controlId="validationCustom01">
+      <Form.Group as={Col} md="4" sm="6" className='pb-3' controlId="validationCustom01">
           <Form.Label>Property Name</Form.Label>
           <Form.Control
             required
             type="text"
+            disabled
             placeholder="Enter your property name"
             name='property_name'
             value={formData.property_name}
@@ -281,8 +341,8 @@ const UserEditHouseDetails = () => {
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="4" className='pb-3' controlId="validationCustom01">
-          <Form.Label>Set your price</Form.Label>
+        <Form.Group as={Col} md="4" sm="6" className='pb-3' controlId="validationCustom01">
+          <Form.Label>Set your price (₹)</Form.Label>
           <Form.Control
             required
             type="text"
@@ -293,7 +353,7 @@ const UserEditHouseDetails = () => {
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="4" className='pb-3' controlId="validationCustom02">
+        <Form.Group as={Col} md="4" sm="6" className='pb-3' controlId="validationCustom02">
           <Form.Label>Virtual tour URL</Form.Label>
           <Form.Control
             type="text"
@@ -306,41 +366,36 @@ const UserEditHouseDetails = () => {
         </Form.Group>
         <Form.Group as={Col} md="4" className='pb-3' controlId="validationCustom03">
             <Form.Label>Transaction Type</Form.Label>
-            <fieldset className='d-flex justify-around'>
-                <legend className="sr-only">Transaction Type</legend>
-
-                {['sell', 'rent', 'lease'].map((type) => (
-                    <div key={type} className="flex items-center mb-4" onClick={() => setFormData({ ...formData, transaction_type: type })}>
-                        <input
-                            id={`country-option-${type}`}
-                            type="radio"
-                            name="transactionType"
-                            value={type}
-                            className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                            checked={formData.transaction_type === type}
-                        />
-                        <label htmlFor={`country-option-${type}`} className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                            {type.charAt(0).toUpperCase() + type.slice(1)}
-                        </label>
-                    </div>
-                ))}
-            </fieldset>
+            <div className='row d-flex justify-center'>
+              <div className="col-3 m-1 flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+                  <input defaultChecked={'Rent'===formData.transaction_type} id="rent" type="radio" value="Rent" onChange={handleInputChange} name="transaction_type" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                  <label htmlFor="rent" className="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Rent</label>
+              </div>
+              <div className="col-3 m-1 flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+                  <input defaultChecked={'Sale'===formData.transaction_type} id="sell" type="radio" value="Sale" onChange={handleInputChange} name="transaction_type" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                  <label htmlFor="sell" className="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sell</label>
+              </div>
+              <div className="col-3 m-1 flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+                  <input defaultChecked={'Lease'===formData.transaction_type} id="lease" type="radio" value="Lease" onChange={handleInputChange} name="transaction_type" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                  <label htmlFor="lease" className="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Lease</label>
+              </div>
+            </div>
         </Form.Group>
       </Row>
       <Row className='mb-3 flex justify-around'>
         <h4 className='text-lg font-semibold pb-3'>Home Facts</h4>
-        <Form.Group as={Col} md="4" className='pb-3' controlId="validationCustom03">
+        <Form.Group as={Col} md="3" sm="6" className='pb-3' controlId="validationCustom03">
           <Form.Label>Basement sq. ft.</Form.Label>
           <Form.Control type="text" placeholder="Enter basement square feet" required name='basement_square_feet' value={formData.basement_square_feet} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Enter basement square feet
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="4" className='pb-3' controlId="validationCustom03">
+        <Form.Group as={Col} md="3" sm="6" className='pb-3' controlId="validationCustom03">
           <Form.Label>Garage sq. ft.</Form.Label>
           <Form.Control type="text" placeholder="Enter garage sqaure feet" name='garage_square_feet' value={formData.garage_square_feet} onChange={handleInputChange} />
         </Form.Group>
-        <Form.Group as={Col} md="4" className='pb-3' controlId="validationCustom04">
+        <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom04">
           <Form.Label>Describe your home</Form.Label>
           <Form.Control as="textarea" placeholder="Describe your home" required name='description' value={formData.description} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
@@ -349,29 +404,29 @@ const UserEditHouseDetails = () => {
         </Form.Group>
       </Row>
       <Row className="mb-3 flex justify-around">
-        <Form.Group as={Col} md="2" className='pb-3' controlId="validationCustom05">
+        <Form.Group as={Col} md="2" sm="6" className='pb-3' controlId="validationCustom05">
           <Form.Label>Bedroom</Form.Label>
           <Form.Control type='number' required name='bedroom' value={formData.bedroom} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid data.
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="2" className='pb-3' controlId="validationCustom05">
+        <Form.Group as={Col} md="2" sm="6" className='pb-3' controlId="validationCustom05">
           <Form.Label>Bathroom</Form.Label>
           <Form.Control type='number' required name='bathroom' value={formData.bathroom} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid data.
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="2" className='pb-3' controlId="validationCustom05">
-          <Form.Label>Finished Square feet</Form.Label>
+        <Form.Group as={Col} md="3" sm="6" className='pb-3' controlId="validationCustom05">
+          <Form.Label>Finished sq. ft.</Form.Label>
           <Form.Control type='number' required name='finished_square_feet' value={formData.finished_square_feet} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid data.
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="2" className='pb-3' controlId="validationCustom05">
-          <Form.Label>Lot Size</Form.Label>
+        <Form.Group as={Col} md="2" sm="6" className='pb-3' controlId="validationCustom05">
+          <Form.Label>Lot sq. ft.</Form.Label>
           <Form.Control type='number' required name='lot_size' value={formData.lot_size} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid data.
@@ -379,14 +434,14 @@ const UserEditHouseDetails = () => {
         </Form.Group>
       </Row>
       <Row className='mb-3 flex justify-around'>
-        <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
+        <Form.Group as={Col} md="3" lg="3" sm="6" className='pb-3' controlId="validationCustom05">
           <Form.Label>Year build</Form.Label>
           <Form.Control type='date' required name='year_build' value={formData.year_build} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid data.
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
+        <Form.Group as={Col} md="3" lg="3" sm="6" className='pb-3' controlId="validationCustom05">
           <Form.Label>Structural remodal</Form.Label>
           <Form.Control type='date' required name='remodal_year' value={formData.remodal_year} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
@@ -396,21 +451,21 @@ const UserEditHouseDetails = () => {
       </Row>
       <Row className='mb-3 flex justify-around'>
         <h4 className='text-lg font-semibold pb-3'>Open House</h4>
-        <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
+        <Form.Group as={Col} md="4" sm="4" className='pb-3' controlId="validationCustom05">
           <Form.Label>Date</Form.Label>
           <Form.Control type='date' name='open_house.date' value={formData.open_house.date} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid date.
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
+        <Form.Group as={Col} md="4" sm="4" className='pb-3' controlId="validationCustom05">
           <Form.Label>Start Time</Form.Label>
           <Form.Control type='time' name='open_house.start_time' value={formData.open_house.start_time} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
             Please provide a valid start time.
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
+        <Form.Group as={Col} md="4" sm="4" className='pb-3' controlId="validationCustom05">
           <Form.Label>End Time</Form.Label>
           <Form.Control type='time' name='open_house.end_time' value={formData.open_house.end_time} onChange={handleInputChange} />
           <Form.Control.Feedback type="invalid">
@@ -420,27 +475,27 @@ const UserEditHouseDetails = () => {
       </Row>
       <Row className='mb-3 flex justify-around'>
         <h4 className='text-lg font-semibold pb-3'>Additional Information</h4>
-        <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
+        <Form.Group as={Col} md="4" lg="3" className='pb-3' controlId="validationCustom05">
           <Form.Label>Related website</Form.Label>
           <Form.Control type='text' name='related_website' value={formData.related_website} onChange={handleInputChange} />
         </Form.Group>
-        <Form.Group as={Col} md="2" lg="2" className='pb-3' controlId="validationCustom05">
+        <Form.Group as={Col} md="6" lg="5" className='pb-3' controlId="validationCustom05">
           <Form.Label>What i love about this Home</Form.Label>
           <Form.Control as="textarea" name='more_description' value={formData.more_description} onChange={handleInputChange} />
         </Form.Group>
       </Row>
       <Row className='mb-3 flex justify-around'>
-        <Col>
+        <Col sm={12} md={6} >
           <Accordion defaultActiveKey={['0']} alwaysOpen>
             <Accordion.Item eventKey="0">
               <Accordion.Header>ROOM DETAILS</Accordion.Header>
               <Accordion.Body>
-              <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+              <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                 <Form.Label className='text-base'>APPLIANCES</Form.Label>
                 <Form>
                   <div className="row">
                     {appliances.map((type) => (
-                      <div key={`${type}`} className="mb-3 col-6">
+                      <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                         <Form.Check
                           type= 'checkbox'
                           id={`${type}`}
@@ -462,12 +517,12 @@ const UserEditHouseDetails = () => {
                   </div>
                 </Form>
               </Form.Group>
-              <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+              <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                 <Form.Label className='text-base'>BASEMENT</Form.Label>
-                <Form className='flex justify-center'>
+                <Form>
                   <div className="row">
                     {basement.map((type) => (
-                      <div key={`${type}`} className="mb-3 col-6">
+                      <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                         <Form.Check
                           type= 'checkbox'
                           id={`${type}`}
@@ -489,12 +544,12 @@ const UserEditHouseDetails = () => {
                   </div>
                 </Form>
               </Form.Group>
-              <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+              <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                 <Form.Label className='text-base'>FLOOR COVERING</Form.Label>
-                <Form className='flex justify-center'>
+                <Form>
                   <div className="row">
                     {floorCovering.map((type) => (
-                      <div key={`${type}`} className="mb-3 col-6">
+                      <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                         <Form.Check
                           type= 'checkbox'
                           id={`${type}`}
@@ -516,12 +571,12 @@ const UserEditHouseDetails = () => {
                   </div>
                 </Form>
               </Form.Group>
-              <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+              <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                 <Form.Label className='text-base'>ROOMS</Form.Label>
                 <Form className='flex justify-center'>
                   <div className="row">
                     {rooms.map((type) => (
-                      <div key={`${type}`} className="mb-3 col-6">
+                      <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                         <Form.Check
                           type= 'checkbox'
                           id={`${type}`}
@@ -550,12 +605,12 @@ const UserEditHouseDetails = () => {
                   </div>
                 </Form>
               </Form.Group>
-              <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+              <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                 <Form.Label className='text-base'>INDOOR FEATURES</Form.Label>
-                <Form className='flex justify-center'>
+                <Form>
                   <div className="row">
                     {indoorFeatures.map((type) => (
-                      <div key={`${type}`} className="mb-3 col-6">
+                      <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                         <Form.Check
                           type= 'checkbox'
                           id={`${type}`}
@@ -582,12 +637,12 @@ const UserEditHouseDetails = () => {
             <Accordion.Item eventKey="0">
               <Accordion.Header>BUILDING DETAILS</Accordion.Header>
               <Accordion.Body>
-                <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+                <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                   <Form.Label className='text-base'>BUILDING AMENITIES</Form.Label>
                   <Form>
                     <div className="row">
                       {buildingAmenities.map((type) => (
-                        <div key={`${type}`} className="mb-3 col-6">
+                        <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                           <Form.Check
                             type= 'checkbox'
                             id={`${type}`}
@@ -609,12 +664,12 @@ const UserEditHouseDetails = () => {
                     </div>
                   </Form>
                 </Form.Group>
-                <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+                <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                   <Form.Label className='text-base'>ARCHITECTURAL STYLE</Form.Label>
                   <Form>
                     <div className="row">
                       {architecturalStyle.map((type) => (
-                        <div key={`${type}`} className="mb-3 col-6">
+                        <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                           <Form.Check
                             type= 'checkbox'
                             id={`${type}`}
@@ -636,12 +691,12 @@ const UserEditHouseDetails = () => {
                     </div>
                   </Form>
                 </Form.Group>
-                <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+                <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                   <Form.Label className='text-base'>EXTERIOR</Form.Label>
                   <Form>
                     <div className="row">
                       {exterior.map((type) => (
-                        <div key={`${type}`} className="mb-3 col-6">
+                        <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                           <Form.Check
                             type= 'checkbox'
                             id={`${type}`}
@@ -663,12 +718,12 @@ const UserEditHouseDetails = () => {
                     </div>
                   </Form>
                 </Form.Group>
-                <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+                <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                   <Form.Label className='text-base'>OUTDOOR AMENITIES</Form.Label>
                   <Form>
                     <div className="row">
                       {outdoorAmenities.map((type) => (
-                        <div key={`${type}`} className="mb-3 col-6">
+                        <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                           <Form.Check
                             type= 'checkbox'
                             id={`${type}`}
@@ -690,12 +745,12 @@ const UserEditHouseDetails = () => {
                     </div>
                   </Form>
                 </Form.Group>
-                <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+                <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                   <Form.Label className='text-base'>PARKING</Form.Label>
                   <Form>
                     <div className="row">
                       {parking.map((type) => (
-                        <div key={`${type}`} className="mb-3 col-6">
+                        <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                           <Form.Check
                             type= 'checkbox'
                             id={`${type}`}
@@ -724,12 +779,12 @@ const UserEditHouseDetails = () => {
                     </div>
                   </Form>
                 </Form.Group>
-                <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+                <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                   <Form.Label className='text-base'>ROOF</Form.Label>
                   <Form>
                     <div className="row">
                       {roof.map((type) => (
-                        <div key={`${type}`} className="mb-3 col-6">
+                        <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                           <Form.Check
                             type= 'checkbox'
                             id={`${type}`}
@@ -751,12 +806,12 @@ const UserEditHouseDetails = () => {
                     </div>
                   </Form>
                 </Form.Group>
-                <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
+                <Form.Group as={Col} className='pb-3' controlId="validationCustom05">
                   <Form.Label className='text-base'>VIEW</Form.Label>
                   <Form>
                     <div className="row">
                       {view.map((type) => (
-                        <div key={`${type}`} className="mb-3 col-6">
+                        <div key={`${type}`} className="mb-3 col-6 d-flex justify-start">
                           <Form.Check
                             type= 'checkbox'
                             id={`${type}`}
@@ -782,7 +837,7 @@ const UserEditHouseDetails = () => {
             </Accordion.Item>
           </Accordion>
         </Col>
-        <Col>
+        <Col sm={12} md={6} >
           <Accordion defaultActiveKey={['0']} alwaysOpen>
             <Accordion.Item eventKey="0">
               <Accordion.Header>ACCOUNT DETAILS</Accordion.Header>
@@ -883,7 +938,7 @@ const UserEditHouseDetails = () => {
           event.target.style.borderColor = 'white';
         }}
       >
-        POST FOR SALE BY OWNER
+        UPDATE PROPERTY
       </Button>
     </Form>
   );

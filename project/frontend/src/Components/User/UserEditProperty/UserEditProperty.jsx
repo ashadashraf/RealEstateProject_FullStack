@@ -14,7 +14,7 @@ const UserEditProperty = ({propertyId}) => {
                 // console.log(`${key}: ${value}`);
                 if (key === 'id' && String(value) === propertyId) {
                     dispatch(addPropertyDetail({
-                        showPropertyDetail: property
+                        propertyDetail: property
                     }));
                     setPropertyType(property.property_type);
                 }

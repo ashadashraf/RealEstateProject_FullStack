@@ -9,8 +9,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { resetPropertyAddress } from '../../../../Redux/sellPropertyDetails/propertyAddressSlice';
 import { constructApiUrl } from '../../../../Services/ApiUtils';
+import { toast } from 'react-toastify';
 
-const UserPostHouseDetails = () => {
+const UserPostHouseDetails = ({propertyType}) => {
   const [validated, setValidated] = useState(false);
   const history = useHistory();
   const currentDate = new Date();
@@ -19,7 +20,57 @@ const UserPostHouseDetails = () => {
   const day = String(currentDate.getDate()).padStart(2, '0');
 
   const formattedDate = `${year}-${month}-${day}`;
-
+  const showToastMessage = (message, type) => {
+    switch (type) {
+      case "error":
+        toast.error(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+      case "warning":
+        toast.warning(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+        case "success":
+          toast.success(message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          break;
+      default:
+        toast(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     
@@ -87,9 +138,11 @@ const UserPostHouseDetails = () => {
       if (response.ok) {
         console.log('PropertyAdded');
         const data = await response.json();
-        console.log(data)
-        dispatch(resetPropertyAddress())
-        localStorage.setItem('propertyId', data.id)
+        console.log(data);
+        dispatch(resetPropertyAddress());
+        localStorage.setItem('propertyId', data.id);
+        showToastMessage("Property added successfully.", "success");
+        showToastMessage("Now add your property images.", "warning");
         history.push('/postpropertydocuments');
       } else {
         console.log('Failed to add property');
@@ -97,29 +150,13 @@ const UserPostHouseDetails = () => {
         console.log('Error Details:', errorText);
         console.log('status', response.status);
         console.log(response);
+        showToastMessage("Failed to add prooerty.", "error");
         // console.log(formData);
       }
     } catch (error) {
+      showToastMessage("Connection error please chaeck your connection or try again later.", "error");
       console.error("Error in senting request", error);
     }
-
-    // try {
-    //   const apiEndpoint = 'api/property/addfiles/';
-    //   fetch(constructApiUrl(apiEndpoint), {
-    //     method: 'POST',
-    //     body: fileData,
-    //   }).then((response) => {
-    //     if (response.ok) {
-    //       console.log('Property Files added');
-    //       console.log(response);
-    //     } else {
-    //       console.log('Failed to add property files')
-    //       console.log(response);
-    //     }
-    //   });
-    // } catch {
-    //   console.log('Error in sending request for property files');
-    // }
     setValidated(true);
   };
 
@@ -150,162 +187,13 @@ const UserPostHouseDetails = () => {
 
   const {latitude, longitude} = coordinates;
 
-  // const [formData, setFormData] = useState({
-  //   user_id: ownerId,
-  //   phone_number: '1122334455',
-  //   email: 'ashad@gmail.com',
-  //   transaction_type: transactionType,
-  //   property_name: 'Fajnassawa',
-  //   property_type: 'house',
-  //   address: address,
-  //   locality: {
-  //     pincode: pincode,
-  //     unit: unit,
-  //     district: city,
-  //     state: state,
-  //   },
-  //   coordinates: {
-  //     latitude: coordinates.lat,
-  //     longitude: coordinates.lng,
-  //   },
-  //   price: '1342523',
-  //   virtual_tour_url: 'www.entho.com',
-  //   basement_square_feet: '253',
-  //   garage_square_feet: '123',
-  //   description: 's;jhfpoejgnf;ejgrenwo;fnvfjsdjlvgshdb',
-  //   bedroom: 0,
-  //   bathroom: 0,
-  //   finished_square_feet: '234',
-  //   lot_size: '534',
-  //   year_build: formattedDate,
-  //   remodal_year: formattedDate,
-  //   open_house: {
-  //     date: '',
-  //     start_time: '',
-  //     end_time: '',
-  //   },
-  //   related_website: 'ar.com',
-  //   more_description: 'sajfbvvkjsajsahksajv',
-  //   appliances: {
-  //     dishwasher: false,
-  //     oven: false,
-  //     dry: false,
-  //     refrigerator: false,
-  //     freezer: false,
-  //     trash_compator: false,
-  //     garbage_disposal: false,
-  //     washer: false,
-  //     micro_wave: false,
-  //   },
-  //   basement: {
-  //     finished: false,
-  //     unfinished: false,
-  //     partially_finished: false,
-  //   },
-  //   floor_covering: {
-  //     carpet: false,
-  //     slate: false,
-  //     concrete: false,
-  //     softwood: false,
-  //     hardwood: false,
-  //     tile: false,
-  //     laminate: false,
-  //     other_floor_covering: false,
-  //     linoleum: false,
-  //   },
-  //   rooms: {
-  //     breakfast_nook: false,
-  //     office: false,
-  //     dining_room: false,
-  //     pantry: false,
-  //     family_room: false,
-  //     recreation_room: false,
-  //     laundry_room: false,
-  //     workshop: false,
-  //     library: false,
-  //     master_room: false,
-  //     total_rooms: '5',
-  //   },
-  //   indoor_features: {
-  //     security_system: false,
-  //     cable: false,
-  //     ceiling_fans: false,
-  //     fire_place: false,
-  //     wired: false,
-  //   },
-  //   accounts: {
-  //     down_payment: '',
-  //     loan_years: '',
-  //     interest_rate: '',
-  //     tax_rate: '',
-  //   },
-  //   building_amenities: {
-  //     gated_entry: false,
-  //     near_transportation: false,
-  //     controlled_access: false,
-  //     storage: false,
-  //     elevator: false,
-  //   },
-  //   architectural_style: {
-  //     bungalow: false,
-  //     modern: false,
-  //     villa: false,
-  //     loft: false,
-  //   },
-  //   exterior: {
-  //     brick: false,
-  //     stucco: false,
-  //     cement: false,
-  //     vinyl: false,
-  //     wood: false,
-  //     metal: false,
-  //     stone: false,
-  //     other_exterior: false,
-  //   },
-  //   outdoor_amenities: {
-  //     balcony: false,
-  //     barbecue_area: false,
-  //     pond: false,
-  //     pool: false,
-  //     porch: false,
-  //     rv_parking: false,
-  //     water_front: false,
-  //     spa: false,
-  //     sprinkler_system: false,
-  //   },
-  //   parking: {
-  //     carport: false,
-  //     off_street: false,
-  //     garage_attached: false,
-  //     on_street: false,
-  //     garage_detached: false,
-  //     parking_spaces: '2',
-  //   },
-  //   roof: {
-  //     asphalt: false,
-  //     concrete: false,
-  //     build_up: false,
-  //     slate: false,
-  //     composition: false,
-  //     tile: false,
-  //     metal: false,
-  //   },
-  //   view: {
-  //     city: false,
-  //     territorial: false,
-  //     mountain: false,
-  //     water: false,
-  //     park: false,
-  //   },
-  // });
-
   const [formData, setFormData] = useState({
     user_id: ownerId,
     phone_number: '',
     email: '',
     transaction_type: transactionType,
     property_name: '',
-    property_type: 'house',
+    property_type: propertyType,
     address: address,
     locality: {
       pincode: pincode,
@@ -465,7 +353,7 @@ const UserPostHouseDetails = () => {
   };
 
   return (
-    <Form encType='multipart/form-data' noValidate validated={validated} onSubmit={handleSubmit}>
+    <Form encType='multipart/form-data' validated={validated} onSubmit={handleSubmit}>
       <Row className="mb-3">
       <Form.Group as={Col} md="4" className='pb-3' controlId="validationCustom01">
           <Form.Label>Property Name</Form.Label>
@@ -606,7 +494,7 @@ const UserPostHouseDetails = () => {
         </Form.Group>
       </Row>
       <Row className='mb-3 flex justify-around'>
-        <Col>
+        <Col lg={6} md={12}>
           <Accordion defaultActiveKey={['0']} alwaysOpen>
             <Accordion.Item eventKey="0">
               <Accordion.Header>ROOM DETAILS</Accordion.Header>
@@ -718,7 +606,7 @@ const UserPostHouseDetails = () => {
                     ))}
                     <Form.Group as={Col} md="6" lg="6" className='pb-3' controlId="validationCustom05">
                       <Form.Label>Total Rooms</Form.Label>
-                      <Form.Control type='number' required name='rooms.total_rooms' value={formData.rooms.total_rooms} onChange={handleInputChange} />
+                      <Form.Control type='number' required name='rooms.total_rooms' value={formData.rooms.total_rooms} onChange={handleInputChange} min={0} />
                       <Form.Control.Feedback type="invalid">
                         Please provide a valid data.
                       </Form.Control.Feedback>
@@ -785,6 +673,7 @@ const UserPostHouseDetails = () => {
                     </div>
                   </Form>
                 </Form.Group>
+                {propertyType === 'house' &&
                 <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
                   <Form.Label className='text-base'>ARCHITECTURAL STYLE</Form.Label>
                   <Form>
@@ -812,6 +701,7 @@ const UserPostHouseDetails = () => {
                     </div>
                   </Form>
                 </Form.Group>
+                }
                 <Form.Group as={Col} md="6" className='pb-3' controlId="validationCustom05">
                   <Form.Label className='text-base'>EXTERIOR</Form.Label>
                   <Form>
@@ -890,9 +780,9 @@ const UserPostHouseDetails = () => {
                           />
                         </div>
                       ))}
-                      <Form.Group as={Col} md="6" lg="6" className='pb-3' controlId="validationCustom05">
+                      <Form.Group as={Col} md={6} lg={6} className='pb-3' controlId="validationCustom05">
                         <Form.Label>Parking spaces</Form.Label>
-                        <Form.Control type='number' required name='parking.parking_spaces' value={formData.parking.parking_spaces} onChange={handleInputChange} />
+                        <Form.Control type='number' required name='parking.parking_spaces' value={formData.parking.parking_spaces} onChange={handleInputChange} min={0} />
                         <Form.Control.Feedback type="invalid">
                           Please provide a valid data.
                         </Form.Control.Feedback>
@@ -958,7 +848,7 @@ const UserPostHouseDetails = () => {
             </Accordion.Item>
           </Accordion>
         </Col>
-        <Col>
+        <Col lg={6} md={12}>
           <Accordion defaultActiveKey={['0']} alwaysOpen>
             <Accordion.Item eventKey="0">
               <Accordion.Header>ACCOUNT DETAILS</Accordion.Header>

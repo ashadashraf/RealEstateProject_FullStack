@@ -1,18 +1,8 @@
-import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
-
-import django
-django.setup()
-
 from rest_framework import serializers
 from .models import Property, Locality, GeoCordinates, PropertyAccounts, OpenHouse
 from .models import Appliances, Basement, FloorCovering, Rooms, IndoorFeatures, BuildingAmenities
 from .models import ArchitecturalStyle, Exterior, OutdoorAmenities, Parking, Roof, View, Documents
 from authentication.models import User
-from datetime import datetime
-from rest_framework import viewsets, parsers
-
-import os
 
 class LocalitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -144,9 +134,11 @@ class PropertySerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         is_creation = self.context.get('request') and self.context['request'].method == 'POST'
+        is_updation = self.context.get('request') and self.context['request'].method == 'PUT'
 
-        if is_creation:
+        if is_creation or is_updation:
             self.fields.pop('images')
+        
 
     def create(self, validated_data):
         print('/////////////////////////')
@@ -229,7 +221,120 @@ class PropertySerializer(serializers.ModelSerializer):
         documents = Documents.objects.filter(property=instance.id)
         image_data = DocumentsSerializer(documents, many=True).data
         representation['images'] = image_data
+        if self.context and 'request' in self.context and self.context['request']:
+            user_id = self.context.get('request').query_params.get('user_id')
+            if user_id:
+                user = User.objects.get(id=user_id)
+                representation['liked'] = instance.is_liked_by_user(user)
         return representation
+    
+    def update(self, instance, validated_data):
+        instance.phone_number = validated_data.get('phone_number', instance.phone_number)
+        instance.email = validated_data.get('email', instance.email)
+        instance.related_website = validated_data.get('related_website', instance.related_website)
+        instance.transaction_type = validated_data.get('transaction_type', instance.transaction_type)
+        instance.price = validated_data.get('price', instance.price)
+        instance.address = validated_data.get('address', instance.address)
+        instance.virtual_tour_url = validated_data.get('virtual_tour_url', instance.virtual_tour_url)
+        instance.lot_size = validated_data.get('lot_size', instance.lot_size)
+        instance.basement_square_feet = validated_data.get('basement_square_feet', instance.basement_square_feet)
+        instance.garage_square_feet = validated_data.get('garage_square_feet', instance.garage_square_feet)
+        instance.finished_square_feet = validated_data.get('finished_square_feet', instance.finished_square_feet)
+        instance.description = validated_data.get('description', instance.description)
+        instance.more_description = validated_data.get('more_description', instance.more_description)
+        instance.year_build = validated_data.get('year_build', instance.year_build)
+        instance.remodal_year = validated_data.get('remodal_year', instance.remodal_year)
+        instance.bedroom = validated_data.get('bedroom', instance.bedroom)
+        instance.bathroom = validated_data.get('bathroom', instance.bathroom)
+        
+        # Update Accounts fields
+        property_accounts_data = validated_data.pop('accounts', {})
+        for field in ['down_payment', 'loan_years', 'interest_rate', 'tax_rate']:
+            setattr(instance.accounts, field, property_accounts_data.get(field, getattr(instance.accounts, field)))
+        instance.accounts.save()
+        
+        # Update Open House fields
+        open_house_data = validated_data.pop('open_house', {})
+        for field in ['date', 'end_time', 'start_time']:
+            setattr(instance.open_house, field, open_house_data.get(field, getattr(instance.open_house, field)))
+        instance.open_house.save()
+
+        # Update Appliances fields
+        appliances_data = validated_data.pop('appliances', {})
+        for field in ['dishwasher', 'dry', 'freezer', 'garbage_disposal', 'micro_wave', 'oven', 'refrigerator', 'trash_compator', 'washer']:
+            setattr(instance.appliances, field, appliances_data.get(field, getattr(instance.appliances, field)))
+        instance.appliances.save()
+
+        # Update Basement fields
+        basement_data = validated_data.pop('basement', {})
+        for field in ['finished', 'unfinished', 'partially_finished']:
+            setattr(instance.basement, field, basement_data.get(field, getattr(instance.basement, field)))
+        instance.basement.save()
+
+        # Update FloorCovering fields
+        floor_covering_data = validated_data.pop('floor_covering', {})
+        for field in ['carpet', 'concrete', 'hardwood', 'laminate', 'linoleum', 'softwood', 'tile', 'slate', 'other_floor_covering']:
+            setattr(instance.floor_covering, field, floor_covering_data.get(field, getattr(instance.floor_covering, field)))
+        instance.floor_covering.save()
+
+        # Update Rooms fields
+        rooms_data = validated_data.pop('rooms', {})
+        for field in ['dining_room', 'family_room', 'laundry_room', 'library', 'breakfast_nook', 'office', 'recreation_room', 'master_room', 'pantry', 'workshop', 'total_rooms']:
+            setattr(instance.rooms, field, rooms_data.get(field, getattr(instance.rooms, field)))
+        instance.rooms.save()
+
+        # Update IndoorFeatures fields
+        indoor_features_data = validated_data.pop('indoor_features', {})
+        for field in ['security_system', 'cable', 'ceiling_fans', 'fire_place', 'wired']:
+            setattr(instance.indoor_features, field, indoor_features_data.get(field, getattr(instance.indoor_features, field)))
+        instance.indoor_features.save()
+
+        # Update BuildingAmenities fields
+        building_amenities_data = validated_data.pop('building_amenities', {})
+        for field in ['gated_entry', 'near_transportation', 'controlled_access', 'storage', 'elevator']:
+            setattr(instance.building_amenities, field, building_amenities_data.get(field, getattr(instance.building_amenities, field)))
+        instance.building_amenities.save()
+
+        # Update ArchitecturalStyle fields
+        architectural_style_data = validated_data.pop('architectural_style', {})
+        for field in ['bungalow', 'modern', 'villa', 'loft']:
+            setattr(instance.architectural_style, field, architectural_style_data.get(field, getattr(instance.architectural_style, field)))
+        instance.architectural_style.save()
+
+        # Update Exterior fields
+        exterior_data = validated_data.pop('exterior', {})
+        for field in ['brick', 'cement', 'wood', 'stone', 'stucco', 'metal', 'vinyl', 'other_exterior']:
+            setattr(instance.exterior, field, exterior_data.get(field, getattr(instance.exterior, field)))
+        instance.exterior.save()
+
+        # Update OutdoorAmenities fields
+        outdoor_amenities_data = validated_data.pop('outdoor_amenities', {})
+        for field in ['balcony', 'barbecue_area', 'pond', 'pool', 'porch', 'rv_parking', 'water_front', 'spa', 'sprinkler_system']:
+            setattr(instance.outdoor_amenities, field, outdoor_amenities_data.get(field, getattr(instance.outdoor_amenities, field)))
+        instance.outdoor_amenities.save()
+
+        # Update Parking fields
+        parking_data = validated_data.pop('parking', {})
+        for field in ['carport', 'off_street', 'on_street', 'garage_attached', 'garage_detached', 'parking_spaces']:
+            setattr(instance.parking, field, parking_data.get(field, getattr(instance.parking, field)))
+        instance.parking.save()
+
+        # Update Roof fields
+        roof_data = validated_data.pop('roof', {})
+        for field in ['build_up', 'asphalt', 'concrete', 'slate', 'tile', 'composition', 'metal']:
+            setattr(instance.roof, field, roof_data.get(field, getattr(instance.roof, field)))
+        instance.roof.save()
+
+        # Update View fields
+        view_data = validated_data.pop('view', {})
+        for field in ['city', 'mountain', 'park', 'territorial', 'water']:
+            setattr(instance.view, field, view_data.get(field, getattr(instance.view, field)))
+        instance.view.save()
+
+        # Save the Property instance after making updates
+        instance.save()
+        print(instance.garage_square_feet)
+        return instance
 
 class AllPropertiesSerializer(serializers.ModelSerializer):
     locality = LocalitySerializer()
@@ -244,9 +349,20 @@ class AllPropertiesSerializer(serializers.ModelSerializer):
         documents = Documents.objects.filter(property=instance.id)
         image_data = DocumentsSerializer(documents, many=True).data
         representation['images'] = image_data
+        if self.context and 'request' in self.context and self.context['request']:
+            user_id = self.context.get('request').query_params.get('user_id')
+            if user_id:
+                user = User.objects.get(id=user_id)
+                representation['liked'] = instance.is_liked_by_user(user)
+        
         return representation
     
 class FavouritesSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('favourites',)
+
+class PropertyStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Property
+        fields = ('is_active',)

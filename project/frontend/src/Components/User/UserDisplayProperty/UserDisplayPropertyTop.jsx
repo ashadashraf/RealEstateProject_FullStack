@@ -14,7 +14,6 @@ const UserDisplayPropertyTop = () => {
         }, 6500);
         return () => clearInterval(intervalId);
     }, []);
-    console.log(property)
     return (
         <React.Fragment>
             <Row className='w-100 pl-1 pr-1 pb-1'>

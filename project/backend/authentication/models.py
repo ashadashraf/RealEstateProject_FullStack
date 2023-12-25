@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from phonenumber_field.modelfields import PhoneNumberField
 # from data.models import Property
-from chat_channel.models import Message
+
 from django.utils import timezone
 
 # Create your models here.
@@ -64,4 +64,5 @@ class User(AbstractBaseUser, PermissionsMixin):
         self.save()
     
     def unread_messages(self):
+        from chat_channel.models import Message
         return Message.objects.filter(created_at__gt=self.last_read_date).count()

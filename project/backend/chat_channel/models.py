@@ -2,7 +2,6 @@ from django.db import models
 import uuid
 from django.core.exceptions import ValidationError
 from django.conf import settings
-from channels.db import database_sync_to_async
 
 
 # Create your models here.

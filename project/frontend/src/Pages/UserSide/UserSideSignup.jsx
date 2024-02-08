@@ -25,6 +25,7 @@ import UserGoogleSignout from './UserGoogleSignout';
 import { gapi } from 'gapi-script';
 import { GoogleClientId } from '../../Services/Keys';
 import { constructApiUrl } from '../../Services/ApiUtils';
+import { toast } from 'react-toastify';
 
 const clientId = GoogleClientId;
 
@@ -37,7 +38,60 @@ export default function UserSideSignup() {
   const [email, setEmail] = useState(null);
   let [phoneNumber, setPhoneNumber] = useState(null);
   const [password, setPassword] = useState(null);
+  const [error, setError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState(null);
+
+  const showToastMessage = (message, type) => {
+    switch (type) {
+      case "error":
+        toast.error(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+      case "warning":
+        toast.warning(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+      case "success":
+        toast.success(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        break;
+      default:
+        toast(message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+    }
+  };
 
   const closeModalHandle = () => {
     dispatch(setShowSignupModal({
@@ -47,6 +101,7 @@ export default function UserSideSignup() {
 
   const handleSignup = async (event) => {
     event.preventDefault();
+    setError('');
     phoneNumber = '+91' + phoneNumber;
     const userData = {username, email, phone_number: phoneNumber, password};
     console.log(userData);
@@ -67,15 +122,20 @@ export default function UserSideSignup() {
       if (response.ok) {
         console.log('Sigup successful');
         console.log(response)
+        showToastMessage("Signup success", "success");
         dispatch(setShowSignupModal({showSignupModal: false}))
         window.location.href = '/';
       } else {
         const responseText = await response.text();
-        alert('Signup failed', responseText);
+        // alert('Signup failed', responseText);
+        setError('Signup failed.',);
+        showToastMessage(`Signup failed. Please check your credentials: ${responseText}`, "warning");
         console.error('Signup failed', responseText);
       }
     } catch (error) {
-      alert("error in creating user", error);
+      // alert("error in creating user", error);
+      setError('An error occured while tring to signup');
+      showToastMessage("Connection error, try again later", "error");
       console.error('An error occured:', error.response);
     }
   };
@@ -120,7 +180,7 @@ export default function UserSideSignup() {
             <MDBModalBody>
                 <MDBContainer fluid className='d-flex align-items-center justify-content-center' >
                     {/* <div className='mask gradient-custom-3'></div> */}
-                    <MDBCard className='m-5' style={{maxWidth: '450px', background:'none', border: 'none'}}>
+                    <div className='m-5' style={{maxWidth: '450px', background:'none', border: 'none'}}>
                         <MDBCardBody className='px-1'>
                         <MDBInput placeholder='username' value={username} onChange={(e) => setUsername(e.target.value)} wrapperClass='mb-4' size='sm' id='form1' type='text'/>
                         <MDBInput placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} wrapperClass='mb-4' size='sm' id='form2' type='email'/>
@@ -134,7 +194,7 @@ export default function UserSideSignup() {
                         </MDBCardBody>
                         <p className='text-white cursor-pointer' onClick={handleSignin}>Already user?</p>
                         {showSigninModal && <UserSideLogin />}
-                    </MDBCard>
+                    </div>
                 </MDBContainer>
             </MDBModalBody>
             </div>
